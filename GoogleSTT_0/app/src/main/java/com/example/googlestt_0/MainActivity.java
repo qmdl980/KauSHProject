@@ -16,8 +16,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.s3.transfermanager.TransferManager;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 
+import java.io.File;
+import java.util.ArrayList;
+////////////////////////////
 public class MainActivity extends Activity {
     private static final int REQUEST_CODE = 1234;
     Button Start;
@@ -31,6 +41,20 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         Start = (Button)findViewById(R.id.start_reg);
         Speech = (TextView)findViewById(R.id.speech);
+
+        // AMAZONS3CLIENT 객체 생성
+        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
+                getApplicationContext(),
+                "us-east-2:86ccb826-e4c8-4de2-b167-199c79848012", // Identity Pool ID
+                Regions.US_EAST_2 // Region
+        );
+        AmazonS3 s3 = new AmazonS3Client(credentialsProvider);
+        TransferUtility transferUtility = new TransferUtility(s3, getApplicationContext());
+        //
+        s3.setRegion(Region.getRegion(Regions.US_EAST_2)); s3.setEndpoint("s3.us-east-2.amazonaws.com");
+        // transferobserver 객체 생성 --> 파일을 업로드 하는 부분
+
+        //
 
         Start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +100,14 @@ public class MainActivity extends Activity {
                                         int position, long id) {
                     Speech.setText("You have said " + "\n" + matches_text.get(position));
                     match_text_dialog.hide();
+
+                    TransferManager transferUtility = null;
+                    TransferObserver observer = (TransferObserver) transferUtility.upload(
+
+                            "noding", /* 업로드 할 버킷 이름 */
+                            "lion.jpg", /* 버킷에 저장할 파일의 이름 */
+                            new File("C:\\Users\\jjmml\\Desktop\\PC SETTING\\사진들") /* 버킷에 저장할 파일 객체*/
+                    );
                 }
             });
             match_text_dialog.show();
