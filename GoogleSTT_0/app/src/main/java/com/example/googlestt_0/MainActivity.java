@@ -33,6 +33,9 @@ public class MainActivity extends Activity {
     Dialog match_text_dialog;
     ListView textlist;
     ArrayList<String> matches_text;
+    public String text_data; // 사용자가 말하는 음성데이터 **
+    FileOutputStream outputStream; // 파일 입출력을 위한 파일객체 **
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,8 +93,8 @@ public class MainActivity extends Activity {
     {
 
         String filename = "myfile";
-        String string = "hello";
-        FileOutputStream outputStream;
+        String string = text_data;
+        
 
         try {
             outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
@@ -126,16 +129,19 @@ public class MainActivity extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
                     Speech.setText("You have said " + "\n" + matches_text.get(position));
+                    text_data = matches_text.get(position);
                     match_text_dialog.hide();
 
+                    /*
+                    TransferManager transferUtility = null;
+                    TransferObserver observer = (TransferObserver) transferUtility.upload(
+                            "noding",
+                            "/data/data/com.example.googlestt_0/files",
+                            new File(outputStream.getClass().getName())
 
-                 //   TransferManager transferUtility = null;
-                 //   TransferObserver observer = (TransferObserver) transferUtility.upload(
+                    );
 
-                 //           "noding", /* 업로드 할 버킷 이름 */
-                 //           matches_text.get(position), /* 버킷에 저장할 파일의 이름 */
-                 //           matches_text.get(position)/* 버킷에 저장할 파일 객체*/
-                 //   );
+                    */
 
                 }
             });
