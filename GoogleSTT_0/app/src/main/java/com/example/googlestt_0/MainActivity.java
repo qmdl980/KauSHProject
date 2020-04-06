@@ -17,15 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.mobileconnectors.s3.transfermanager.TransferManager;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 
-import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 ////////////////////////////
 public class MainActivity extends Activity {
@@ -81,6 +79,35 @@ public class MainActivity extends Activity {
             return false;
         }
     }
+
+    // 파일화 만들기
+    public void InternalStorageSave(View view)
+    {
+        internalStorageSaveFile();
+    }
+
+    public void internalStorageSaveFile()
+    {
+
+        String filename = "myfile";
+        String string = "hello";
+        FileOutputStream outputStream;
+
+        try {
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(string.getBytes());
+            outputStream.close();
+
+            Toast.makeText(this, "this is internal storage save success.", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Toast.makeText(this, "this is internal storage save fail.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // ~ 파일화 만들기
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
@@ -101,13 +128,15 @@ public class MainActivity extends Activity {
                     Speech.setText("You have said " + "\n" + matches_text.get(position));
                     match_text_dialog.hide();
 
-                    TransferManager transferUtility = null;
-                    TransferObserver observer = (TransferObserver) transferUtility.upload(
 
-                            "noding", /* 업로드 할 버킷 이름 */
-                            "lion.jpg", /* 버킷에 저장할 파일의 이름 */
-                            new File("C:\\Users\\jjmml\\Desktop\\PC SETTING\\사진들") /* 버킷에 저장할 파일 객체*/
-                    );
+                 //   TransferManager transferUtility = null;
+                 //   TransferObserver observer = (TransferObserver) transferUtility.upload(
+
+                 //           "noding", /* 업로드 할 버킷 이름 */
+                 //           matches_text.get(position), /* 버킷에 저장할 파일의 이름 */
+                 //           matches_text.get(position)/* 버킷에 저장할 파일 객체*/
+                 //   );
+
                 }
             });
             match_text_dialog.show();
