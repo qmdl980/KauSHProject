@@ -105,7 +105,7 @@ public class MainActivity extends Activity {
         internalStorageSaveFile();
 
         TransferObserver observer = (TransferObserver) transferUtility.upload(
-                "noding",
+                "noding/text_data",
                 "myfile.txt",
                 new File("/data/data/com.example.googlestt_0/files/myfile")
         );
@@ -115,7 +115,7 @@ public class MainActivity extends Activity {
     {
 
         String filename = "myfile";
-        String string = "good";
+        String string = "fucking2";
         // String string = text_data;
 
 
