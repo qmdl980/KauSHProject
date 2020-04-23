@@ -115,8 +115,9 @@ public class MainActivity extends Activity {
     {
 
         String filename = "myfile";
-        String string = "fucking2";
+        String string = text_data;
         // String string = text_data;
+        // 처음 나타나는 데이터가 가장 높은 확룰의 매칭을 보여주는거 같음.
 
 
         try {
@@ -152,7 +153,7 @@ public class MainActivity extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
                     Speech.setText("You have said " + "\n" + matches_text.get(position));
-                    text_data = matches_text.get(position);
+                    text_data = matches_text.get(position); // 말하는 데이터를 저장한다.
                     match_text_dialog.hide();
 
                     /*
