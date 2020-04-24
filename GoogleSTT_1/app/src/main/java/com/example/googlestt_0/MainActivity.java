@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Start = (Button)findViewById(R.id.start_reg);
+        Start = (Button)findViewById(R.id.start_reg); // 이걸 클릭하고 녹음을 시작한다.
         Speech = (TextView)findViewById(R.id.speech);
 
         // AMAZONS3CLIENT 객체 생성
@@ -59,20 +59,21 @@ public class MainActivity extends Activity {
         s3.setRegion(Region.getRegion(Regions.US_EAST_2));
         s3.setEndpoint("s3.us-east-2.amazonaws.com");
 
-        //File input_file = new File("/data/data/com.example.googlestt_0/files", "myfile"); // 경로, 파일명
 
-        /*
-        TransferObserver observer = (TransferObserver) transferUtility.upload(
-            "noding",
-            "myfile.txt",
-                new File("/data/data/com.example.googlestt_0/files/myfile")
-        );
-       */
+        // 시작하자마자 녹음하기
+        if(isConnected()){
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            startActivityForResult(intent, REQUEST_CODE); //
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Plese Connect to Internet", Toast.LENGTH_LONG).show();
+        }
+        // 여기까지
 
-        // transferobserver 객체 생성 --> 파일을 업로드 하는 부분
-
-        //
-
+        //*** 추가작업) 혹시 못했을 경우 버튼을 눌러서 녹음을 시작할 수 있게 했음
+        // 일단 시작은 바로 녹음 할 수 있고, 혹시 인식 못하면 탭 해서 다시 하게 해주거나 아니면 talk to me 버튼 눌러서 녹음 할 수 있게 해줘
         Start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +88,8 @@ public class MainActivity extends Activity {
                 }}
 
         });
+
+
     }
     public  boolean isConnected()
     {
@@ -100,6 +103,7 @@ public class MainActivity extends Activity {
     }
 
     // 파일화 만들기
+    /*
     public void InternalStorageSave(View view)
     {
         internalStorageSaveFile();
@@ -132,6 +136,8 @@ public class MainActivity extends Activity {
             Toast.makeText(this, "this is internal storage save fail.", Toast.LENGTH_LONG).show();
         }
     }
+    */
+
 
     // ~ 파일화 만들기
 
@@ -148,6 +154,38 @@ public class MainActivity extends Activity {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, matches_text);
             textlist.setAdapter(adapter);
+
+            //선택안하고 첫번째 인덱스의 텍스트를 바로 출력
+            // 처음 나타나는 데이터가 가장 높은 확룰의 매칭을 보여주는거 같음.
+            text_data = matches_text.get(0);
+            Speech.setText("<  "+text_data+"  >");
+
+            String filename = "myfile";
+            String string = text_data;
+            // String string = text_data;
+
+
+            // 여기서 부터 s3에 저장하는 코드 (아무런 사용자의 activity 없이... 클릭도 안하고... )
+            try {
+                outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                outputStream.write(string.getBytes());
+                outputStream.close();
+
+                Toast.makeText(this, "this is internal storage save success.", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                Toast.makeText(this, "this is internal storage save fail.", Toast.LENGTH_LONG).show();
+            }
+            TransferObserver observer = (TransferObserver) transferUtility.upload(
+                    "noding/text_data",
+                    "myfile.txt",
+                    new File("/data/data/com.example.googlestt_0/files/myfile")
+            );
+            // 여기까지
+
+
+            /*
             textlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
@@ -156,18 +194,10 @@ public class MainActivity extends Activity {
                     text_data = matches_text.get(position); // 말하는 데이터를 저장한다.
                     match_text_dialog.hide();
 
-                    /*
-                    TransferManager transferUtility = null;
-                    TransferObserver observer = (TransferObserver) transferUtility.upload(
-                            "noding",
-                            "/data/data/com.example.googlestt_0/files",
-                            new File(outputStream.getClass().getName())
-                    );
-                    */
-
                 }
             });
-            match_text_dialog.show();
+            */
+            //match_text_dialog.show();
 
         }
         super.onActivityResult(requestCode, resultCode, data);
