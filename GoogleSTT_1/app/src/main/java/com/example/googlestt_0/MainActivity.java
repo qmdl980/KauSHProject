@@ -178,7 +178,7 @@ public class MainActivity extends Activity {
                 Toast.makeText(this, "this is internal storage save fail.", Toast.LENGTH_LONG).show();
             }
             TransferObserver observer = (TransferObserver) transferUtility.upload(
-                    "noding/text_data",
+                    "noding",
                     "myfile.txt",
                     new File("/data/data/com.example.googlestt_0/files/myfile")
             );

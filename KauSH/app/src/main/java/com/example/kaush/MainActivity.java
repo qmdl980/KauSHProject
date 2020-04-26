@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         Button Next = findViewById(R.id.button_to_emotion);
         Button Next2 = findViewById(R.id.button_to_emotion2);
 
+
         // AMAZONS3CLIENT 객체 생성
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
                 getApplicationContext(),
@@ -136,7 +137,8 @@ public class MainActivity extends AppCompatActivity {
             //선택안하고 첫번째 인덱스의 텍스트를 바로 출력
             // 처음 나타나는 데이터가 가장 높은 확룰의 매칭을 보여주는거 같음.
             text_data = matches_text.get(0);
-            Speech.setText("<  " + text_data + "  >");
+            //System.out.println("555555555555555" + text_data);
+            //Speech.setText("<  " + text_data + "  >");
 
             String filename = "myfile";
             String string = text_data;
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
             TransferObserver observer = (TransferObserver) transferUtility.upload(
                     "noding/text_data",
                     "myfile.txt",
-                    new File("/data/data/com.example.googlestt_0/files/myfile")
+                    new File("/data/data/com.example.kaush/files/myfile")
             );
         }
         super.onActivityResult(requestCode, resultCode, data);
