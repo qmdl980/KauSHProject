@@ -29,7 +29,47 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView"
+        app:layout_constraintTop_toBottomOf="@+id/text_music_emotion"
+        app:layout_constraintBottom_toTopOf="@+id/music_linear_layout2"
+        android:background="@drawable/textbox">
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"/>
+        <LinearLayout
+            android:layout_width="210dp"
+            android:layout_height="150dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/text_music_title"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="@color/colorText"
+                android:text="MusicTitle"
+                android:fontFamily="@font/bmjua"/>
+            <Space
+                android:layout_width="210dp"
+                android:layout_height="25dp"/>
+            <TextView
+                android:id="@+id/text_music_date"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/colorText"
+                android:text="MusicDate"
+                android:fontFamily="@font/bmjua"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/music_linear_layout2"
+        android:layout_width="360dp"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/music_linear_layout"
         app:layout_constraintBottom_toTopOf="@+id/space"
         android:background="@drawable/textbox">
         <ImageView
@@ -40,23 +80,23 @@
             android:layout_height="150dp"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/text_music_title2"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:textColor="@color/colorText"
                 android:text="MusicTitle"
-                android:id="@+id/text_music_title"
                 android:fontFamily="@font/bmjua"/>
             <Space
                 android:layout_width="210dp"
                 android:layout_height="25dp"/>
             <TextView
+                android:id="@+id/text_music_date2"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="@color/colorText"
                 android:text="MusicDate"
-                android:id="@+id/text_music_date"
                 android:fontFamily="@font/bmjua"/>
         </LinearLayout>
     </LinearLayout>
@@ -64,11 +104,11 @@
     <Space
         android:id="@+id/space"
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/music_linear_layout2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

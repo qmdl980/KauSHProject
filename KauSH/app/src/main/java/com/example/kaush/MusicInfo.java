@@ -3,11 +3,11 @@ package com.example.kaush;
 public class MusicInfo {
     String title;
     String date;
-    String uri;
+    String url;
 
-    public MusicInfo(String title, String date, String uri){
+    public MusicInfo(String title, String date, String url){
         this.title = title;
         this.date = date;
-        this.uri = uri;
+        this.url = url;
     }
 }
