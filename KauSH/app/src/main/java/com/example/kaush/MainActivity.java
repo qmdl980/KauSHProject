@@ -24,8 +24,15 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         // AMAZONS3CLIENT 객체 생성
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
                 getApplicationContext(),
-                "us-east-2:86ccb826-e4c8-4de2-b167-199c79848012", // Identity Pool ID
+                "us-east-2:cfe39edd-07c9-4e30-aff8-d313684eb2a3", // Identity Pool ID
                 Regions.US_EAST_2 // Region
         );
         AmazonS3 s3 = new AmazonS3Client(credentialsProvider);
@@ -158,11 +165,17 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "this is internal storage save fail.", Toast.LENGTH_LONG).show();
             }
             TransferObserver observer = (TransferObserver) transferUtility.upload(
-                    "noding/text_data",
+                    "noding2",
                     "myfile.txt",
                     new File("/data/data/com.example.kaush/files/myfile")
             );
+
+            // URL 에서 데이터 읽어오기
+            // 읽어올 url : https://43sisn313b.execute-api.us-east-2.amazonaws.com/sage-function
+            // 여기까지
         }
         super.onActivityResult(requestCode, resultCode, data);
+
+        //출처: https://bottlecok.tistory.com/52 [잡캐의 IT 꿀팁]
     }
 }
