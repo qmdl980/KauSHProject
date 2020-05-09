@@ -53,18 +53,6 @@ public class MainActivity extends AppCompatActivity {
     String[] probabilities = new String[3]; // 확률값들만 저장하는 배열
     private CustomDialog customDialog;
 
-    Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-            Bundle bun = msg.getData();
-            String nodingHtml = bun.getString("NODING_HTML");
-            probability_list = nodingHtml;
-            //tvNaverHtml.setText(naverHtml);
-            //System.out.println("|||||||||||| " + nodingHtml);
-            //dividedProbability();
-        }
-    };
-    //출처: https://docko.tistory.com/entry/안드로이드-androidosNetworkOnMainThreadException [장똘]
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
         Start = (Button)findViewById(R.id.btn_google_stt);
         Button Next = findViewById(R.id.button_to_emotion);
         Button Next2 = findViewById(R.id.button_to_emotion2);
-
-        final Handler mHandler = new Handler();
 
         // AMAZONS3CLIENT 객체 생성
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
@@ -284,6 +270,17 @@ public class MainActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    final Handler handler = new Handler() {
+                        public void handleMessage(Message msg) {
+                            Bundle bun = msg.getData();
+                            String nodingHtml = bun.getString("NODING_HTML");
+                            probability_list = nodingHtml;
+                            //tvNaverHtml.setText(naverHtml);
+                            //System.out.println("|||||||||||| " + nodingHtml);
+                            //dividedProbability();
+                        }
+                    };
+                    //출처: https://docko.tistory.com/entry/안드로이드-androidosNetworkOnMainThreadException [장똘]
                     customDialog.cancel();
                     Toast myToast = Toast.makeText(MainActivity.this,"2번", Toast.LENGTH_SHORT);
                     myToast.show();
