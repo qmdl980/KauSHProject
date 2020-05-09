@@ -183,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
                         eintent.putExtra("text", text_data);
                         startActivityForResult(eintent, REQUEST_CODE);
                     }
-
                 }, 5000);
             }
         });
