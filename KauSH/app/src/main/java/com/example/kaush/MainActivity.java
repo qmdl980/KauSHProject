@@ -311,6 +311,7 @@ public class MainActivity extends AppCompatActivity {
                     }*/
 
 
+                    customDialog.cancel();
                     Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
                     eintent.putExtra("text", text_data);
                     startActivityForResult(eintent,REQUEST_CODE);
