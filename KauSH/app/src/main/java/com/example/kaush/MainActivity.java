@@ -216,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
             //tvNaverHtml.setText(naverHtml);
             //System.out.println("|||||||||||| " + nodingHtml);
             dividedProbability();
-
         }
     };
     //출처: https://docko.tistory.com/entry/안드로이드-androidosNetworkOnMainThreadException [장똘]
@@ -298,8 +297,8 @@ public class MainActivity extends AppCompatActivity {
                             handler.sendMessage(msg);
                         }
                     }.start();
-                    Integer probability1 = Integer.parseInt(probabilities[1]);
-                    Integer probability2 = Integer.parseInt(probabilities[2]);
+                    Float probability1 = Float.parseFloat(probabilities[1]);
+                    Float probability2 = Float.parseFloat(probabilities[2]);
                     if(probability1 <= probability2){
                         Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
                         eintent.putExtra("text", text_data);
