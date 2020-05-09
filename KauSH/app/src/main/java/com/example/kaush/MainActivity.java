@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     String[] probabilities = new String[3]; // 확률값들만 저장하는 배열
     private CustomDialog customDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         s3.setEndpoint("s3.us-east-2.amazonaws.com");
 
 
-        /*new Thread() {
+        new Thread() {
             public void run() {
                 String nodingHtml = getNodingHtml();
 
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 msg.setData(bun);
                 handler.sendMessage(msg);
             }
-        }.start();*/
+        }.start();
 
         //tvNaverHtml = (TextView)this.findViewById(R.id.tv_naver_html);
 
@@ -129,9 +128,44 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         customDialog.cancel();
-                        Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
+
+                        Thread t1 = new Thread() {
+                            public void run() {
+                                String nodingHtml = getNodingHtml();
+                                Bundle bun = new Bundle();
+                                bun.putString("NODING_HTML", nodingHtml);
+                                probability_list = nodingHtml;
+                                Message msg = handler.obtainMessage();
+                                msg.setData(bun);
+                                handler.sendMessage(msg);
+                                //Toast.makeText(MainActivity.this, "쓰레드부분",Toast.LENGTH_SHORT);
+                            }
+                        };
+
+                        t1.start();
+                        try {
+                            t1.join();
+                        } catch(InterruptedException e){
+                            e.printStackTrace();
+                        }
+
+                        dividedProbability();
+
+                        Float probability1 = Float.parseFloat(probabilities[1]);
+                        Float probability2 = Float.parseFloat(probabilities[2]);
+                        if(probability1 <= probability2){
+                            Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
+                            eintent.putExtra("text", text_data);
+                            startActivityForResult(eintent,REQUEST_CODE);
+                        }else {
+                            Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
+                            eintent.putExtra("text", text_data);
+                            startActivityForResult(eintent, REQUEST_CODE);
+                        }
+
+                        /*Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
                         eintent.putExtra("text", text_data);
-                        startActivityForResult(eintent,REQUEST_CODE);
+                        startActivityForResult(eintent,REQUEST_CODE);*/
                     }
                 }, 5000);
             }
@@ -165,6 +199,15 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            Bundle bun = msg.getData();
+            String nodingHtml = bun.getString("NODING_HTML");
+            probability_list = nodingHtml;
+            dividedProbability();
+        }
+    };
 
     private String getNodingHtml(){
         String nodingHtml = "";
@@ -212,10 +255,10 @@ public class MainActivity extends AppCompatActivity {
         //probability_list.substring(0, probability_list.length()-2);
         //probabilities = probability_list.substring(1, probability_list.length()-2).split(",");
         probabilities = probability_list.split(",");
-        for(int i=0; i<3; i++)
+        /*for(int i=0; i<3; i++)
         {
             System.out.println("probabilities: "+ probabilities[i]);
-        }
+        }*/
         //System.out.println("====================" + probability_list.substring(1, probability_list.length()-2));
     }
 
@@ -270,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    final Handler handler = new Handler() {
+                    /*final Handler handler = new Handler() {
                         public void handleMessage(Message msg) {
                             Bundle bun = msg.getData();
                             String nodingHtml = bun.getString("NODING_HTML");
@@ -318,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
                         eintent.putExtra("text", text_data);
                         startActivityForResult(eintent, REQUEST_CODE);
-                    }
+                    }*/
                 }
             }, 5000);
 
