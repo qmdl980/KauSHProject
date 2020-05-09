@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Start = (Button)findViewById(R.id.btn_google_stt);
+        Start = (Button) findViewById(R.id.btn_google_stt);
         Button Next = findViewById(R.id.button_to_emotion);
         Button Next2 = findViewById(R.id.button_to_emotion2);
 
@@ -108,15 +108,15 @@ public class MainActivity extends AppCompatActivity {
         Start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isConnected()){
+                if (isConnected()) {
                     Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                     intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                             RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                     startActivityForResult(intent, REQUEST_CODE); //
-                }
-                else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Plese Connect to Internet", Toast.LENGTH_LONG).show();
-                }}
+                }
+            }
 
         });
         Next.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                         t1.start();
                         try {
                             t1.join();
-                        } catch(InterruptedException e){
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
 
@@ -153,11 +153,11 @@ public class MainActivity extends AppCompatActivity {
 
                         Float probability1 = Float.parseFloat(probabilities[1]);
                         Float probability2 = Float.parseFloat(probabilities[2]);
-                        if(probability1 <= probability2){
-                            Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
+                        if (probability1 <= probability2) {
+                            Intent eintent = new Intent(getApplicationContext(), EmotionActivity.class);
                             eintent.putExtra("text", text_data);
-                            startActivityForResult(eintent,REQUEST_CODE);
-                        }else {
+                            startActivityForResult(eintent, REQUEST_CODE);
+                        } else {
                             Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
                             eintent.putExtra("text", text_data);
                             startActivityForResult(eintent, REQUEST_CODE);
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 }, 5000);
             }
         });
-        Next2.setOnClickListener(new View.OnClickListener(){
+        Next2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 customDialog = new CustomDialog(MainActivity.this);
@@ -179,9 +179,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         customDialog.cancel();
-                        Intent eintent = new Intent(getApplicationContext(),EmotionActivity2.class);
+                        Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
                         eintent.putExtra("text", text_data);
-                        startActivityForResult(eintent,REQUEST_CODE);
+                        startActivityForResult(eintent, REQUEST_CODE);
                     }
 
                 }, 5000);
@@ -189,11 +189,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public  boolean isConnected()
-    {
+    public boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo net = cm.getActiveNetworkInfo();
-        if (net!=null && net.isAvailable() && net.isConnected()) {
+        if (net != null && net.isAvailable() && net.isConnected()) {
             return true;
         } else {
             return false;
@@ -209,19 +208,19 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private String getNodingHtml(){
+    private String getNodingHtml() {
         String nodingHtml = "";
 
-        URL url =null;
+        URL url = null;
         HttpURLConnection http = null;
         InputStreamReader isr = null;
         BufferedReader br = null;
 
-        try{
+        try {
             url = new URL("https://43sisn313b.execute-api.us-east-2.amazonaws.com/sage-function");
             http = (HttpURLConnection) url.openConnection();
-            http.setConnectTimeout(3*1000);
-            http.setReadTimeout(3*1000);
+            http.setConnectTimeout(3 * 1000);
+            http.setReadTimeout(3 * 1000);
 
             isr = new InputStreamReader(http.getInputStream());
             br = new BufferedReader(isr);
@@ -231,27 +230,35 @@ public class MainActivity extends AppCompatActivity {
                 nodingHtml += str + "\n";
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("Exception", e.toString());
-        }finally{
-            if(http != null){
-                try{http.disconnect();}catch(Exception e){}
+        } finally {
+            if (http != null) {
+                try {
+                    http.disconnect();
+                } catch (Exception e) {
+                }
             }
 
-            if(isr != null){
-                try{isr.close();}catch(Exception e){}
+            if (isr != null) {
+                try {
+                    isr.close();
+                } catch (Exception e) {
+                }
             }
 
-            if(br != null){
-                try{br.close();}catch(Exception e){}
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (Exception e) {
+                }
             }
         }
         return nodingHtml;
     }
 
     // [] 를 포함한 확률 리스트에서 확률값들만 뽑아내는 함수
-    private void dividedProbability()
-    {
+    private void dividedProbability() {
         //probability_list.substring(0, probability_list.length()-2);
         //probabilities = probability_list.substring(1, probability_list.length()-2).split(",");
         probabilities = probability_list.split(",");
@@ -311,80 +318,51 @@ public class MainActivity extends AppCompatActivity {
             customDialog = new CustomDialog(MainActivity.this);
             customDialog.show();
             new Handler().postDelayed(new Runnable() {
+
                 @Override
                 public void run() {
-                    customDialog = new CustomDialog(MainActivity.this);
-                    customDialog.show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
+                    customDialog.cancel();
+
+                    Thread t1 = new Thread() {
                         public void run() {
-                            customDialog.cancel();
+                            String nodingHtml = getNodingHtml();
+                            Bundle bun = new Bundle();
+                            bun.putString("NODING_HTML", nodingHtml);
+                            probability_list = nodingHtml;
+                            Message msg = handler.obtainMessage();
+                            msg.setData(bun);
+                            handler.sendMessage(msg);
+                            //Toast.makeText(MainActivity.this, "쓰레드부분",Toast.LENGTH_SHORT);
+                        }
+                    };
 
-                            Thread t1 = new Thread() {
-                                public void run() {
-                                    String nodingHtml = getNodingHtml();
-                                    Bundle bun = new Bundle();
-                                    bun.putString("NODING_HTML", nodingHtml);
-                                    probability_list = nodingHtml;
-                                    Message msg = handler.obtainMessage();
-                                    msg.setData(bun);
-                                    handler.sendMessage(msg);
-                                    //Toast.makeText(MainActivity.this, "쓰레드부분",Toast.LENGTH_SHORT);
-                                }
-                            };
+                    t1.start();
+                    try {
+                        t1.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-                            t1.start();
-                            try {
-                                t1.join();
-                            } catch(InterruptedException e){
-                                e.printStackTrace();
-                            }
+                    dividedProbability();
 
-                            dividedProbability();
-
-                            Float probability1 = Float.parseFloat(probabilities[1]);
-                            Float probability2 = Float.parseFloat(probabilities[2]);
-                            if(probability1 <= probability2){
-                                Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
-                                eintent.putExtra("text", text_data);
-                                startActivityForResult(eintent,REQUEST_CODE);
-                            }else {
-                                Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
-                                eintent.putExtra("text", text_data);
-                                startActivityForResult(eintent, REQUEST_CODE);
-                            }
+                    Float probability1 = Float.parseFloat(probabilities[1]);
+                    Float probability2 = Float.parseFloat(probabilities[2]);
+                    if (probability1 <= probability2) {
+                        Intent eintent = new Intent(getApplicationContext(), EmotionActivity.class);
+                        eintent.putExtra("text", text_data);
+                        startActivityForResult(eintent, REQUEST_CODE);
+                    } else {
+                        Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
+                        eintent.putExtra("text", text_data);
+                        startActivityForResult(eintent, REQUEST_CODE);
+                    }
 
                         /*Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
                         eintent.putExtra("text", text_data);
                         startActivityForResult(eintent,REQUEST_CODE);*/
-                        }
-
-            }, 5000);
-
-
-            /*
-            // url 읽어오기
-            String url = "";
-            InputStream is = null;
-            try {
-                is = new URL("https://43sisn313b.execute-api.us-east-2.amazonaws.com/sage-function").openStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                String str;
-                StringBuffer buffer = new StringBuffer();
-                while ((str = rd.readLine()) != null) {
-                    buffer.append(str);
                 }
-                String receiveMsg = buffer.toString();
-                System.out.println("||||||||||||||||||" + receiveMsg);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //출처: https://bottlecok.tistory.com/52 [잡캐의 IT 꿀팁]
-            */
-
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //출처: https://bottlecok.tistory.com/52 [잡캐의 IT 꿀팁]
+            }, 5000);
+        }super.onActivityResult(requestCode,resultCode,data);
     }
 }
+
