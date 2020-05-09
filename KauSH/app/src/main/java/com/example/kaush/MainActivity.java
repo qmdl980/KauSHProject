@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    customDialog.cancel();
+                    /*customDialog.cancel();
                     Toast myToast = Toast.makeText(MainActivity.this,"2번", Toast.LENGTH_SHORT);
                     myToast.show();
                     new Thread() {
@@ -308,7 +308,13 @@ public class MainActivity extends AppCompatActivity {
                         Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
                         eintent.putExtra("text", text_data);
                         startActivityForResult(eintent, REQUEST_CODE);
-                    }
+                    }*/
+
+
+                    Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
+                    eintent.putExtra("text", text_data);
+                    startActivityForResult(eintent,REQUEST_CODE);
+
                 }
             }, 5000);
 
