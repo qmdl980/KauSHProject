@@ -295,6 +295,8 @@ public class MainActivity extends AppCompatActivity {
                             Message msg = handler.obtainMessage();
                             msg.setData(bun);
                             handler.sendMessage(msg);
+                            Toast myToast = Toast.makeText(MainActivity.this,"여기까지 됐음", Toast.LENGTH_SHORT);
+                            myToast.show();
                         }
                     }.start();
                     Float probability1 = Float.parseFloat(probabilities[1]);
