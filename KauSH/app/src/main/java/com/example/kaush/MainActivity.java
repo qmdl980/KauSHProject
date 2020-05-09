@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
         probabilities = probability_list.split(",");
         for(int i=0; i<3; i++)
         {
-            System.out.println("probabilities: "+probabilities[i]);
+            System.out.println("probabilities: "+ probabilities[i]);
         }
         //System.out.println("====================" + probability_list.substring(1, probability_list.length()-2));
     }
@@ -290,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
                     new Thread() {
                         public void run() {
+
                             String nodingHtml = getNodingHtml();
 
                             Bundle bun = new Bundle();
@@ -297,9 +298,11 @@ public class MainActivity extends AppCompatActivity {
                             Message msg = handler.obtainMessage();
                             msg.setData(bun);
                             handler.sendMessage(msg);
+
                         }
                     }.start();
 
+                    dividedProbability();
                     Float probability1 = Float.parseFloat(probabilities[1]);
                     Float probability2 = Float.parseFloat(probabilities[2]);
                     if(probability1 <= probability2){
