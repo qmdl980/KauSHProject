@@ -21,9 +21,9 @@ public class EmotionActivity2 extends AppCompatActivity {
 
         userText = intent.getExtras().getString("text");
 
-        TextView emotionText = findViewById(R.id.text_emotion);
+        //TextView emotionText = findViewById(R.id.text_emotion);
 
-        emotionText.setText(userText);
+        //emotionText.setText(userText);
 
         Button btnSolaceMusic = findViewById(R.id.btn_music_solace);
         btnSolaceMusic.setOnClickListener(new View.OnClickListener(){

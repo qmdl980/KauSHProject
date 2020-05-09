@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private TransferUtility transferUtility;
     String probability_list;
     String[] probabilities = new String[3]; // 확률값들만 저장하는 배열
+    private CustomDialog customDialog;
 
 
     @Override
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         Button Next = findViewById(R.id.button_to_emotion);
         Button Next2 = findViewById(R.id.button_to_emotion2);
 
+        final Handler mHandler = new Handler();
 
         // AMAZONS3CLIENT 객체 생성
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         s3.setEndpoint("s3.us-east-2.amazonaws.com");
 
 
-        new Thread() {
+        /*new Thread() {
             public void run() {
                 String nodingHtml = getNodingHtml();
 
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 msg.setData(bun);
                 handler.sendMessage(msg);
             }
-        }.start();
+        }.start();*/
 
         //tvNaverHtml = (TextView)this.findViewById(R.id.tv_naver_html);
 
@@ -123,17 +125,34 @@ public class MainActivity extends AppCompatActivity {
         Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
-                eintent.putExtra("text", text_data);
-                startActivityForResult(eintent,REQUEST_CODE);
+                customDialog = new CustomDialog(MainActivity.this);
+                customDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        customDialog.cancel();
+                        Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
+                        eintent.putExtra("text", text_data);
+                        startActivityForResult(eintent,REQUEST_CODE);
+                    }
+                }, 5000);
             }
         });
         Next2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent eintent = new Intent(getApplicationContext(),EmotionActivity2.class);
-                eintent.putExtra("text", text_data);
-                startActivityForResult(eintent,REQUEST_CODE);
+                customDialog = new CustomDialog(MainActivity.this);
+                customDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        customDialog.cancel();
+                        Intent eintent = new Intent(getApplicationContext(),EmotionActivity2.class);
+                        eintent.putExtra("text", text_data);
+                        startActivityForResult(eintent,REQUEST_CODE);
+                    }
+
+                }, 5000);
             }
         });
     }
@@ -257,6 +276,44 @@ public class MainActivity extends AppCompatActivity {
                     "myfile.txt",
                     new File("/data/data/com.example.kaush/files/myfile")
             );
+
+            //여기서부터 dialog실행 5초 대기 및 다음 액티비티로 넘어가는 과정 해보기
+            //우선 에뮬에서는 확인할수 없기 때문에 출력방식으로 사용 or 버튼누를시 하는걸로
+
+            customDialog = new CustomDialog(MainActivity.this);
+            customDialog.show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    customDialog.cancel();
+
+                    new Thread() {
+                        public void run() {
+                            String nodingHtml = getNodingHtml();
+
+                            Bundle bun = new Bundle();
+                            bun.putString("NODING_HTML", nodingHtml);
+                            Message msg = handler.obtainMessage();
+                            msg.setData(bun);
+                            handler.sendMessage(msg);
+                        }
+                    }.start();
+                    Integer probability1 = Integer.parseInt(probabilities[1]);
+                    Integer probability2 = Integer.parseInt(probabilities[2]);
+                    if(probability1 <= probability2){
+                        Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
+                        eintent.putExtra("text", text_data);
+                        startActivityForResult(eintent,REQUEST_CODE);
+                    }else {
+                        Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
+                        eintent.putExtra("text", text_data);
+                        startActivityForResult(eintent, REQUEST_CODE);
+                    }
+                }
+
+            }, 5000);
+
+
             /*
             // url 읽어오기
             String url = "";

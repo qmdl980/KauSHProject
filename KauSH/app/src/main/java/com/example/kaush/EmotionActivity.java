@@ -20,9 +20,9 @@ public class EmotionActivity extends AppCompatActivity {
 
         userText = intent.getExtras().getString("text");
 
-        TextView emotionText = findViewById(R.id.text_emotion);
+        //TextView emotionText = findViewById(R.id.text_emotion);
 
-        emotionText.setText(userText);
+        //emotionText.setText(userText);
 
         Button btnLoveMusic = findViewById(R.id.btn_music_love);
         btnLoveMusic.setOnClickListener(new View.OnClickListener(){

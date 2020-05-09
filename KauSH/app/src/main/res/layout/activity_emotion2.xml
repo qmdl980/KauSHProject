@@ -7,17 +7,34 @@
     android:background="@drawable/back_farewell"
     tools:context=".EmotionActivity2">
 
-    <TextView
-        android:id="@+id/text_emotion"
+    <Space
+        android:id="@+id/space"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="25dp"
-        android:textColor="@color/colorText"
-        android:fontFamily="@font/bmjua"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toTopOf="@+id/image_text_farewell"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_text_farewell"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:background="@drawable/text_farewell"
+        app:layout_constraintBottom_toTopOf="@+id/space2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space" />
+
+    <Space
+        android:id="@+id/space2"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_music_solace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_text_farewell" />
 
     <Button
         android:id="@+id/btn_music_solace"
@@ -29,10 +46,10 @@
         android:textSize="20dp"
         android:textColor="#ffffff"
         android:text="위로가 필요해"
-        app:layout_constraintBottom_toTopOf="@+id/space2"
+        app:layout_constraintBottom_toTopOf="@+id/space3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space" />
+        app:layout_constraintTop_toBottomOf="@+id/space2" />
 
     <Button
             android:id="@+id/btn_music_cry"
@@ -50,16 +67,7 @@
             android:text="펑펑 울고싶어" />
 
     <Space
-        android:id="@+id/space"
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_music_solace"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_emotion" />
-
-    <Space
-        android:id="@+id/space2"
+        android:id="@+id/space3"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
         app:layout_constraintBottom_toTopOf="@id/btn_music_cry"
