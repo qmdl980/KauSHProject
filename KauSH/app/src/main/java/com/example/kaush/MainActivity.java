@@ -285,7 +285,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     customDialog.cancel();
-
+                    Toast myToast = Toast.makeText(MainActivity.this,"2번", Toast.LENGTH_SHORT);
+                    myToast.show();
                     new Thread() {
                         public void run() {
                             String nodingHtml = getNodingHtml();
@@ -295,8 +296,6 @@ public class MainActivity extends AppCompatActivity {
                             Message msg = handler.obtainMessage();
                             msg.setData(bun);
                             handler.sendMessage(msg);
-                            Toast myToast = Toast.makeText(MainActivity.this,"여기까지 됐음", Toast.LENGTH_SHORT);
-                            myToast.show();
                         }
                     }.start();
                     Float probability1 = Float.parseFloat(probabilities[1]);
@@ -311,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivityForResult(eintent, REQUEST_CODE);
                     }
                 }
-
             }, 5000);
 
 
