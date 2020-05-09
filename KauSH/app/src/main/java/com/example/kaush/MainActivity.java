@@ -313,56 +313,52 @@ public class MainActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    /*final Handler handler = new Handler() {
-                        public void handleMessage(Message msg) {
-                            Bundle bun = msg.getData();
-                            String nodingHtml = bun.getString("NODING_HTML");
-                            probability_list = nodingHtml;
-                            //tvNaverHtml.setText(naverHtml);
-                            //System.out.println("|||||||||||| " + nodingHtml);
-                            //dividedProbability();
-                        }
-                    };
-                    //출처: https://docko.tistory.com/entry/안드로이드-androidosNetworkOnMainThreadException [장똘]
-                    customDialog.cancel();
-                    Toast myToast = Toast.makeText(MainActivity.this,"2번", Toast.LENGTH_SHORT);
-                    myToast.show();
-
-                    Thread t1 = new Thread() {
+                    customDialog = new CustomDialog(MainActivity.this);
+                    customDialog.show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
                         public void run() {
+                            customDialog.cancel();
 
-                            String nodingHtml = getNodingHtml();
+                            Thread t1 = new Thread() {
+                                public void run() {
+                                    String nodingHtml = getNodingHtml();
+                                    Bundle bun = new Bundle();
+                                    bun.putString("NODING_HTML", nodingHtml);
+                                    probability_list = nodingHtml;
+                                    Message msg = handler.obtainMessage();
+                                    msg.setData(bun);
+                                    handler.sendMessage(msg);
+                                    //Toast.makeText(MainActivity.this, "쓰레드부분",Toast.LENGTH_SHORT);
+                                }
+                            };
 
-                            Bundle bun = new Bundle();
-                            bun.putString("NODING_HTML", nodingHtml);
-                            Message msg = handler.obtainMessage();
-                            msg.setData(bun);
-                            handler.sendMessage(msg);
+                            t1.start();
+                            try {
+                                t1.join();
+                            } catch(InterruptedException e){
+                                e.printStackTrace();
+                            }
 
+                            dividedProbability();
+
+                            Float probability1 = Float.parseFloat(probabilities[1]);
+                            Float probability2 = Float.parseFloat(probabilities[2]);
+                            if(probability1 <= probability2){
+                                Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
+                                eintent.putExtra("text", text_data);
+                                startActivityForResult(eintent,REQUEST_CODE);
+                            }else {
+                                Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
+                                eintent.putExtra("text", text_data);
+                                startActivityForResult(eintent, REQUEST_CODE);
+                            }
+
+                        /*Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
+                        eintent.putExtra("text", text_data);
+                        startActivityForResult(eintent,REQUEST_CODE);*/
                         }
-                    };
 
-                    t1.start();
-                    try {
-                        t1.join();
-                    } catch(InterruptedException e){
-                        e.printStackTrace();
-                    }
-
-                    dividedProbability();
-
-                    Float probability1 = Float.parseFloat(probabilities[1]);
-                    Float probability2 = Float.parseFloat(probabilities[2]);
-                    if(probability1 <= probability2){
-                        Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
-                        eintent.putExtra("text", text_data);
-                        startActivityForResult(eintent,REQUEST_CODE);
-                    }else {
-                        Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
-                        eintent.putExtra("text", text_data);
-                        startActivityForResult(eintent, REQUEST_CODE);
-                    }*/
-                }
             }, 5000);
 
 
