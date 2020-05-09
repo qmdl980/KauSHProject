@@ -284,9 +284,10 @@ public class MainActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    /*customDialog.cancel();
+                    customDialog.cancel();
                     Toast myToast = Toast.makeText(MainActivity.this,"2번", Toast.LENGTH_SHORT);
                     myToast.show();
+
                     new Thread() {
                         public void run() {
                             String nodingHtml = getNodingHtml();
@@ -298,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
                             handler.sendMessage(msg);
                         }
                     }.start();
+
                     Float probability1 = Float.parseFloat(probabilities[1]);
                     Float probability2 = Float.parseFloat(probabilities[2]);
                     if(probability1 <= probability2){
@@ -308,14 +310,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
                         eintent.putExtra("text", text_data);
                         startActivityForResult(eintent, REQUEST_CODE);
-                    }*/
-
-
-                    customDialog.cancel();
-                    Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
-                    eintent.putExtra("text", text_data);
-                    startActivityForResult(eintent,REQUEST_CODE);
-
+                    }
                 }
             }, 5000);
 
