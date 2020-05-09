@@ -53,6 +53,18 @@ public class MainActivity extends AppCompatActivity {
     String[] probabilities = new String[3]; // 확률값들만 저장하는 배열
     private CustomDialog customDialog;
 
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            Bundle bun = msg.getData();
+            String nodingHtml = bun.getString("NODING_HTML");
+            probability_list = nodingHtml;
+            //tvNaverHtml.setText(naverHtml);
+            //System.out.println("|||||||||||| " + nodingHtml);
+            //dividedProbability();
+        }
+    };
+    //출처: https://docko.tistory.com/entry/안드로이드-androidosNetworkOnMainThreadException [장똘]
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,18 +220,6 @@ public class MainActivity extends AppCompatActivity {
         return nodingHtml;
     }
 
-    Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-            Bundle bun = msg.getData();
-            String nodingHtml = bun.getString("NODING_HTML");
-            probability_list = nodingHtml;
-            //tvNaverHtml.setText(naverHtml);
-            //System.out.println("|||||||||||| " + nodingHtml);
-            dividedProbability();
-        }
-    };
-    //출처: https://docko.tistory.com/entry/안드로이드-androidosNetworkOnMainThreadException [장똘]
-
     // [] 를 포함한 확률 리스트에서 확률값들만 뽑아내는 함수
     private void dividedProbability()
     {
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast myToast = Toast.makeText(MainActivity.this,"2번", Toast.LENGTH_SHORT);
                     myToast.show();
 
-                    new Thread() {
+                    Thread t1 = new Thread() {
                         public void run() {
 
                             String nodingHtml = getNodingHtml();
@@ -300,9 +300,17 @@ public class MainActivity extends AppCompatActivity {
                             handler.sendMessage(msg);
 
                         }
-                    }.start();
+                    };
+
+                    t1.start();
+                    try {
+                        t1.join();
+                    } catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
 
                     dividedProbability();
+
                     Float probability1 = Float.parseFloat(probabilities[1]);
                     Float probability2 = Float.parseFloat(probabilities[2]);
                     if(probability1 <= probability2){
