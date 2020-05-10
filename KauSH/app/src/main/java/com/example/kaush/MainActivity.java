@@ -356,7 +356,6 @@ public class MainActivity extends AppCompatActivity {
                         eintent.putExtra("text", text_data);
                         startActivityForResult(eintent, REQUEST_CODE);
                     }
-
                         /*Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
                         eintent.putExtra("text", text_data);
                         startActivityForResult(eintent,REQUEST_CODE);*/
