@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/text_question"
-        android:layout_width="340dp"
+        android:layout_width="330dp"
         android:layout_height="200dp"
         android:text="오늘 그 분과 \n무슨 일이 있었는지 궁금해요\n\n\n"
         android:gravity="center"
