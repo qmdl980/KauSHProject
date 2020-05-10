@@ -68,22 +68,10 @@
         android:textColor="@color/colorText"
         android:background="@drawable/button_custom"
         android:fontFamily="@font/bmjua"
-        app:layout_constraintBottom_toTopOf="@+id/button_to_emotion2"
+        app:layout_constraintBottom_toTopOf="@+id/list_view_music_yet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
          />
-
-    <Button
-        android:id="@+id/button_to_emotion2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next2"
-        android:textColor="@color/colorText"
-        android:background="@drawable/button_custom"
-        android:fontFamily="@font/bmjua"
-        app:layout_constraintBottom_toTopOf="@+id/list_view_music_yet"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         Start = (Button) findViewById(R.id.btn_google_stt);
         Button Next = findViewById(R.id.button_to_emotion);
-        Button Next2 = findViewById(R.id.button_to_emotion2);
 
         musicYetList = findViewById(R.id.list_view_music_yet);
         MusicAdapter musicAdapter = new MusicAdapter();
@@ -152,22 +151,6 @@ public class MainActivity extends AppCompatActivity {
                             eintent.putExtra("text", text_data);
                             startActivityForResult(eintent, REQUEST_CODE);
                         }
-                    }
-                }, 5000);
-            }
-        });
-        Next2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                customDialog = new CustomDialog(MainActivity.this);
-                customDialog.show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        customDialog.cancel();
-                        Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
-                        eintent.putExtra("text", text_data);
-                        startActivityForResult(eintent, REQUEST_CODE);
                     }
                 }, 5000);
             }
