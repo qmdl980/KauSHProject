@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     String[] probabilities = new String[3]; // 확률값들만 저장하는 배열
     private CustomDialog customDialog;
 
+    ListView musicYetList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
         Button Next = findViewById(R.id.button_to_emotion);
         Button Next2 = findViewById(R.id.button_to_emotion2);
 
+        musicYetList = findViewById(R.id.list_view_music_yet);
+        MusicAdapter musicAdapter = new MusicAdapter();
+        musicYetList.setAdapter(musicAdapter);
+
+        for(int i = 0; i <= 10; i++) {
+            musicAdapter.addItem("조이 - 좋은사람있으면소개시켜줘", "2020-05-10", "사랑");
+        }
         // AMAZONS3CLIENT 객체 생성
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
                 getApplicationContext(),

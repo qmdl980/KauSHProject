@@ -31,9 +31,10 @@
         <TextView
             android:layout_marginStart="10dp"
             android:id="@+id/text_music_emotion_yet"
-            android:layout_width="match_parent"
+            android:background="@drawable/textbox2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorText"
             android:fontFamily="@font/bmjua"
             android:textSize="18dp"
             android:text="text_music_emotion_yet"/>
