@@ -53,7 +53,7 @@ public class MusicAdapter extends BaseAdapter {
     public Object getItem(int position) {
         return listViewItemList.get(position) ;
     }
-    
+
     public void addItem(String musicTitle, String userDate, String userEmotion) {
         MusicListItem item = new MusicListItem(musicTitle,userDate,userEmotion);
 
