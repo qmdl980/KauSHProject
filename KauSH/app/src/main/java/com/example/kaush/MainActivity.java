@@ -87,24 +87,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
-        //tvNaverHtml = (TextView)this.findViewById(R.id.tv_naver_html);
-
-        //출처: https://docko.tistory.com/entry/안드로이드-androidosNetworkOnMainThreadException [장똘]
-
-        // 시작하자마자 녹음하기
-        /*if(isConnected()){
-            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-            startActivityForResult(intent, REQUEST_CODE); //
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "Plese Connect to Internet", Toast.LENGTH_LONG).show();
-        }*/
-        // 여기까지
-
-        //*** 추가작업) 혹시 못했을 경우 버튼을 눌러서 녹음을 시작할 수 있게 했음
-        // 일단 시작은 바로 녹음 할 수 있고, 혹시 인식 못하면 탭 해서 다시 하게 해주거나 아니면 talk to me 버튼 눌러서 녹음 할 수 있게 해줘
         Start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
                                 Message msg = handler.obtainMessage();
                                 msg.setData(bun);
                                 handler.sendMessage(msg);
-                                //Toast.makeText(MainActivity.this, "쓰레드부분",Toast.LENGTH_SHORT);
                             }
                         };
 
@@ -162,10 +143,6 @@ public class MainActivity extends AppCompatActivity {
                             eintent.putExtra("text", text_data);
                             startActivityForResult(eintent, REQUEST_CODE);
                         }
-
-                        /*Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
-                        eintent.putExtra("text", text_data);
-                        startActivityForResult(eintent,REQUEST_CODE);*/
                     }
                 }, 5000);
             }
@@ -258,14 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
     // [] 를 포함한 확률 리스트에서 확률값들만 뽑아내는 함수
     private void dividedProbability() {
-        //probability_list.substring(0, probability_list.length()-2);
-        //probabilities = probability_list.substring(1, probability_list.length()-2).split(",");
         probabilities = probability_list.split(",");
-        /*for(int i=0; i<3; i++)
-        {
-            System.out.println("probabilities: "+ probabilities[i]);
-        }*/
-        //System.out.println("====================" + probability_list.substring(1, probability_list.length()-2));
     }
 
     @Override
@@ -285,13 +255,9 @@ public class MainActivity extends AppCompatActivity {
             //선택안하고 첫번째 인덱스의 텍스트를 바로 출력
             // 처음 나타나는 데이터가 가장 높은 확룰의 매칭을 보여주는거 같음.
             text_data = matches_text.get(0);
-            //System.out.println("555555555555555" + text_data);
-            //Speech.setText("<  " + text_data + "  >");
 
             String filename = "myfile";
             String string = text_data;
-            // String string = text_data;
-
 
             // 여기서 부터 s3에 저장하는 코드 (아무런 사용자의 activity 없이... 클릭도 안하고... )
             try {
@@ -331,7 +297,6 @@ public class MainActivity extends AppCompatActivity {
                             Message msg = handler.obtainMessage();
                             msg.setData(bun);
                             handler.sendMessage(msg);
-                            //Toast.makeText(MainActivity.this, "쓰레드부분",Toast.LENGTH_SHORT);
                         }
                     };
 
@@ -355,9 +320,6 @@ public class MainActivity extends AppCompatActivity {
                         eintent.putExtra("text", text_data);
                         startActivityForResult(eintent, REQUEST_CODE);
                     }
-                        /*Intent eintent = new Intent(getApplicationContext(),EmotionActivity.class);
-                        eintent.putExtra("text", text_data);
-                        startActivityForResult(eintent,REQUEST_CODE);*/
                 }
             }, 5000);
         }super.onActivityResult(requestCode,resultCode,data);

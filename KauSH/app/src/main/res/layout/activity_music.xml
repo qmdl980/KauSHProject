@@ -33,12 +33,14 @@
         app:layout_constraintBottom_toTopOf="@+id/music_linear_layout2"
         android:background="@drawable/textbox">
         <ImageView
+            android:id ="@+id/image_music_1"
             android:layout_width="130dp"
             android:layout_height="130dp"/>
         <LinearLayout
-            android:layout_width="210dp"
-            android:layout_height="150dp"
-            android:orientation="vertical">
+            android:layout_width="200dp"
+            android:layout_height="120dp"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp">
             <TextView
                 android:id="@+id/text_music_title"
                 android:layout_width="210dp"
@@ -73,12 +75,14 @@
         app:layout_constraintBottom_toTopOf="@+id/space"
         android:background="@drawable/textbox">
         <ImageView
+            android:id="@+id/image_music_2"
             android:layout_width="130dp"
             android:layout_height="130dp"/>
         <LinearLayout
-            android:layout_width="210dp"
-            android:layout_height="150dp"
-            android:orientation="vertical">
+            android:layout_width="200dp"
+            android:layout_height="120dp"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp">
             <TextView
                 android:id="@+id/text_music_title2"
                 android:layout_width="210dp"
