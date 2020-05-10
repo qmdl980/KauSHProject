@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-
+//
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             Bundle bun = msg.getData();
