@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -37,4 +38,7 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-cognito:2.6.+'
     implementation 'com.amazonaws:aws-android-sdk-core:2.2.+'
     implementation 'com.amazonaws:aws-android-sdk-ddb:2.2.+'
+
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'//파이어베이스
+    implementation 'com.google.firebase:firebase-database:19.1.0'
 }
