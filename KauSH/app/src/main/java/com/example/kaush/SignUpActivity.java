@@ -13,6 +13,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity
 {
@@ -21,6 +27,11 @@ public class SignUpActivity extends AppCompatActivity
     private EditText editTextPassword;
     private EditText editTextName;
     private Button buttonJoin;
+    DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference();
+    HashMap<String, Object> childUpdates = null;
+    Map<String, Object> userValue = null;
+    UserData userdata = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +50,18 @@ public class SignUpActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (!editTextEmail.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                     // 이메일과 비밀번호가 공백이 아닌 경우
-                    createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString(), editTextName.getText().toString());
+                    createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString(), editTextName.getText().toString()); // auth에 저장
+                    //childUpdates = new HashMap<>();
+
+                    UserData userdata = new UserData(editTextName.getText().toString(), editTextPassword.getText().toString()); // db에 저장
+
+                    //userValue = userdata.toMap();
+                    //childUpdates.put("/account/" + "nnoding", userValue);
+                    //System.out.println("???????????????????" + editTextEmail.getText().toString().replace(".",""));
+                    //System.out.println("[[[[[[[[[[[[[[[[[" + editTextEmail.getText().toString().length());
+                    mDBReference.child("account").child(editTextEmail.getText().toString().replace(".", "")).setValue(userdata);
+
+
                 } else {
                     // 이메일과 비밀번호가 공백인 경우
                     Toast.makeText(SignUpActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
@@ -57,6 +79,7 @@ public class SignUpActivity extends AppCompatActivity
                             // 회원가입 성공시
                             Toast.makeText(SignUpActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                             finish();
+
                         } else {
                             // 계정이 중복된 경우
                             Toast.makeText(SignUpActivity.this, "이미 존재하는 계정입니다.", Toast.LENGTH_SHORT).show();
@@ -64,4 +87,5 @@ public class SignUpActivity extends AppCompatActivity
                     }
                 });
     }
+
 }

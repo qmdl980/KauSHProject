@@ -30,6 +30,8 @@ public class MusicActivity extends AppCompatActivity {
     ImageView musicImageView1;
     ImageView musicImageView2;
 
+    DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference(); // 데이터베이스 접근 객체
+
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
     Random random = new Random();
@@ -78,19 +80,30 @@ public class MusicActivity extends AppCompatActivity {
         musicTitleText2.setText(sampleMusic2.title);
         musicDateText2.setText(sampleMusic2.date);
 
+
+
+        //System.out.println("~~~~~~~~~~~~~~~~~~~~" + login.getUserEmail());
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent2 = getIntent();
                 switch (view.getId()){
                     case R.id.music_linear_layout:
                         startActivity(new Intent(Intent.ACTION_VIEW)
                                 .setData(Uri.parse(sampleMusic.url)) // edit this url
                                 .setPackage("com.google.android.youtube"));	// do not edit
+                        System.out.println("++++++++++++++++++" + intent2.getStringExtra("email"));
+
+                        mDBReference.child("account").child(intent2.getStringExtra("email")).child("MusicList").setValue(sampleMusic.title);
+                        mDBReference.child("account").child(intent2.getStringExtra("email")).child("MusicList").setValue(sampleMusic.url);
+
                         break;
                     case R.id.music_linear_layout2:
                         startActivity(new Intent(Intent.ACTION_VIEW)
                                 .setData(Uri.parse(sampleMusic2.url)) // edit this url
                                 .setPackage("com.google.android.youtube"));	// do not edit
+                        //mDBReference.child("account").child(sua.getUsername()).child("MusicList").setValue(sampleMusic.title);
+                        //mDBReference.child("account").child(sua.getUsername()).child("MusicList").setValue(sampleMusic.url);
                         break;
                 }
             }
@@ -98,6 +111,7 @@ public class MusicActivity extends AppCompatActivity {
         musicLinearLayout.setOnClickListener(clickListener);
         musicLinearLayout2.setOnClickListener(clickListener);
     }
+
 
     public void setActivityLove(){
         musicEmotionText.setText("같이 이 노래 들어보는거 어때요?");

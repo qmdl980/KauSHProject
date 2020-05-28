@@ -26,6 +26,9 @@ public class LogInActivity extends AppCompatActivity
     private Button buttonLogIn;
     private Button buttonSignUp;
 
+    private String useremail;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,16 +55,22 @@ public class LogInActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (!editTextEmail.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                     loginUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
+                    Intent intent2 = new Intent(LogInActivity.this, MusicActivity.class); //
+                    intent2.putExtra("email", editTextEmail.getText().toString().replace(".",""));
+                    startActivity(intent2);
                 } else {
                     Toast.makeText(LogInActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
+
+
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
                 if (user != null) {
                     Intent intent = new Intent(LogInActivity.this, MainActivity.class); // 이 부분 어떻게 할건지 ....mainactivity --> homeactivity
                     startActivity(intent);
@@ -100,5 +109,10 @@ public class LogInActivity extends AppCompatActivity
         if (firebaseAuthListener != null) {
             firebaseAuth.removeAuthStateListener(firebaseAuthListener);
         }
+    }
+
+    public String getUserEmail() // 디렉토리 구조상 이름만을 반환하는 함수
+    {
+        return useremail;
     }
 }
