@@ -26,9 +26,6 @@ public class LogInActivity extends AppCompatActivity
     private Button buttonLogIn;
     private Button buttonSignUp;
 
-    private String useremail;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +52,7 @@ public class LogInActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (!editTextEmail.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                     loginUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
-                    Intent intent2 = new Intent(LogInActivity.this, MusicActivity.class); //
-                    intent2.putExtra("email", editTextEmail.getText().toString().replace(".",""));
-                    startActivity(intent2);
+
                 } else {
                     Toast.makeText(LogInActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
                 }
@@ -111,8 +106,4 @@ public class LogInActivity extends AppCompatActivity
         }
     }
 
-    public String getUserEmail() // 디렉토리 구조상 이름만을 반환하는 함수
-    {
-        return useremail;
-    }
 }

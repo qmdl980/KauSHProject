@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +33,10 @@ public class SignUpActivity extends AppCompatActivity
     HashMap<String, Object> childUpdates = null;
     Map<String, Object> userValue = null;
     UserData userdata = null;
+
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    Date time = new Date();
+    String TIME = format.format(time); // 회원가입한 날짜 기입
 
 
     @Override
@@ -48,19 +54,14 @@ public class SignUpActivity extends AppCompatActivity
         buttonJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (!editTextEmail.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                     // 이메일과 비밀번호가 공백이 아닌 경우
                     createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString(), editTextName.getText().toString()); // auth에 저장
-                    //childUpdates = new HashMap<>();
 
                     UserData userdata = new UserData(editTextName.getText().toString(), editTextPassword.getText().toString()); // db에 저장
 
-                    //userValue = userdata.toMap();
-                    //childUpdates.put("/account/" + "nnoding", userValue);
-                    //System.out.println("???????????????????" + editTextEmail.getText().toString().replace(".",""));
-                    //System.out.println("[[[[[[[[[[[[[[[[[" + editTextEmail.getText().toString().length());
-                    mDBReference.child("account").child(editTextEmail.getText().toString().replace(".", "")).setValue(userdata);
-
+                    mDBReference.child("account").child(user.getUid()).setValue(TIME); // 회원의 ID를 디렉토리로 설정하고 디비에 저장
 
                 } else {
                     // 이메일과 비밀번호가 공백인 경우

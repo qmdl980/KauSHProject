@@ -12,12 +12,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import org.w3c.dom.Text;
 
@@ -36,6 +40,12 @@ public class MusicActivity extends AppCompatActivity {
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
     Random random = new Random();
     String rand, rand2;
+
+    private FirebaseAuth firebaseAuth;
+
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date time = new Date();
+    String TIME = format.format(time); // 회원가입한 날짜 기입
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,28 +92,27 @@ public class MusicActivity extends AppCompatActivity {
 
 
 
-        //System.out.println("~~~~~~~~~~~~~~~~~~~~" + login.getUserEmail());
+
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2 = getIntent();
+                firebaseAuth = FirebaseAuth.getInstance();
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                //Intent intent2 = getIntent();
                 switch (view.getId()){
                     case R.id.music_linear_layout:
                         startActivity(new Intent(Intent.ACTION_VIEW)
                                 .setData(Uri.parse(sampleMusic.url)) // edit this url
                                 .setPackage("com.google.android.youtube"));	// do not edit
-                        System.out.println("++++++++++++++++++" + intent2.getStringExtra("email"));
-
-                        mDBReference.child("account").child(intent2.getStringExtra("email")).child("MusicList").setValue(sampleMusic.title);
-                        mDBReference.child("account").child(intent2.getStringExtra("email")).child("MusicList").setValue(sampleMusic.url);
+                        mDBReference.child("account").child(user.getUid()).child("MusicList").child(TIME).setValue(sampleMusic);
 
                         break;
                     case R.id.music_linear_layout2:
                         startActivity(new Intent(Intent.ACTION_VIEW)
                                 .setData(Uri.parse(sampleMusic2.url)) // edit this url
                                 .setPackage("com.google.android.youtube"));	// do not edit
-                        //mDBReference.child("account").child(sua.getUsername()).child("MusicList").setValue(sampleMusic.title);
-                        //mDBReference.child("account").child(sua.getUsername()).child("MusicList").setValue(sampleMusic.url);
+                        mDBReference.child("account").child(user.getUid()).child("MusicList").child(TIME).setValue(sampleMusic);
+
                         break;
                 }
             }
