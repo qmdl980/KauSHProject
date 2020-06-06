@@ -7,11 +7,21 @@ public class UserData
 {
     private String password;
     private String name;
+    private Float emotion1, emotion2;
+
 
     public UserData(String name, String password)
     {
         this.password = password;
         this.name = name;
+    }
+
+
+
+    public UserData(Float emotion1, Float emotion2)
+    {
+        this.emotion1 = emotion1;
+        this.emotion2 = emotion2;
     }
 
     public String getPassword()

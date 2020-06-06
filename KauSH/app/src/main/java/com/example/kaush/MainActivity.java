@@ -28,6 +28,8 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -43,7 +45,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private CustomDialog customDialog;
 
     ListView musicYetList;
+
+    private FirebaseAuth firebaseAuth;
 
 
     @Override
@@ -155,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Float probability1 = Float.parseFloat(probabilities[1]);
                         Float probability2 = Float.parseFloat(probabilities[2]);
+
                         if (probability1 <= probability2) {
                             Intent eintent = new Intent(getApplicationContext(), EmotionActivity.class);
                             eintent.putExtra("text", text_data);
@@ -314,8 +321,23 @@ public class MainActivity extends AppCompatActivity {
 
                     dividedProbability();
 
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date time = new Date();
+                    String TIME = format.format(time); // 회원가입한 날짜 기입
+
+                    firebaseAuth = FirebaseAuth.getInstance();
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference(); // 데이터베이스 접근 객체
+
                     Float probability1 = Float.parseFloat(probabilities[1]);
                     Float probability2 = Float.parseFloat(probabilities[2]);
+
+                    UserData userdata = new UserData(probability1, probability2);
+
+                    mDBReference.child("account").child(user.getUid()).child("Emotion").child(TIME).child("positive").setValue(probability2);
+                    mDBReference.child("account").child(user.getUid()).child("Emotion").child(TIME).child("negative").setValue(probability1);
+                    //mDBReference.child("account").child(user.getUid()).child("Emotion").push().child("negative").setValue(probability2);
+
                     if (probability1 <= probability2) {
                         Intent eintent = new Intent(getApplicationContext(), EmotionActivity.class);
                         eintent.putExtra("text", text_data);

@@ -105,6 +105,7 @@ public class MusicActivity extends AppCompatActivity {
                                 .setData(Uri.parse(sampleMusic.url)) // edit this url
                                 .setPackage("com.google.android.youtube"));	// do not edit
                         mDBReference.child("account").child(user.getUid()).child("MusicList").child(TIME).setValue(sampleMusic);
+                        //mDBReference.child("account").child(user.getUid()).child("Emotion").push().setValue();
 
                         break;
                     case R.id.music_linear_layout2:

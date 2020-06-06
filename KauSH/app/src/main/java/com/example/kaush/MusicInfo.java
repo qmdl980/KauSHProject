@@ -3,18 +3,27 @@ package com.example.kaush;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
 public class MusicInfo implements Parcelable {
     String title;
     String date;
     String url;
 
-    public MusicInfo(String title, String date, String url){
+    public MusicInfo(String title, String date, String url)
+    {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date time = new Date();
+        String TIME = format.format(time); // 회원가입한 날짜 기입
         this.title = title;
-        this.date = date;
+        this.date = TIME;
         this.url = url;
     }
 
-    protected MusicInfo(Parcel in) {
+    protected MusicInfo(Parcel in)
+    {
         title = in.readString();
         date = in.readString();
         url = in.readString();
@@ -33,9 +42,15 @@ public class MusicInfo implements Parcelable {
     };
 
     public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
     public String getDate() { return date; }
-    public void setDate(String date) { this.date = date; }
+    public void setDate(String date)
+    {
+        this.date = date;
+    }
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
 
