@@ -63,8 +63,8 @@ public class LogInActivity extends AppCompatActivity
                 if (!editTextEmail.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                     loginUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
 
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    mDBReference.child("account").child(user.getUid()).setValue(TIME);
+                    //FirebaseUser user = firebaseAuth.getCurrentUser();
+                    //mDBReference.child("account").child(user.getUid()).setValue(TIME);
                 } else {
                     Toast.makeText(LogInActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
                 }
