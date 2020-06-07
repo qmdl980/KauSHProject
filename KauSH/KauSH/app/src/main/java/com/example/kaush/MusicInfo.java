@@ -22,7 +22,7 @@ public class MusicInfo implements Parcelable {
         this.url = url;
     }
 
-    protected MusicInfo(Parcel in)
+    public MusicInfo(Parcel in)
     {
         title = in.readString();
         date = in.readString();

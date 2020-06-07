@@ -21,50 +21,57 @@
     ​-->
     ​
 
-    <EditText
-        android:id="@+id/edittext_email"
+    <LinearLayout
+        android:id="@+id/login_linear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
-
-        android:layout_marginBottom="14dp"
-        android:width="200dp"
-        android:height="30dp"
-        android:ems="10"
-        android:hint="E-mail"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/edittext_password"
+        android:background="@drawable/textbox"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_login">
 
-    ​
+        <EditText
+            android:id="@+id/edittext_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:width="200dp"
+            android:height="30dp"
+            android:background="@drawable/textbox2"
+            android:ems="10"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress"
+            tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/edittext_password"
+        ​
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <EditText
+            android:id="@+id/edittext_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textbox2"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            tools:ignore="MissingConstraints" />
 
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/btn_login"
-        app:layout_constraintStart_toStartOf="@+id/edittext_email"
-        tools:ignore="MissingConstraints" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/textbox"
+        android:background="@drawable/textbox2"
         android:fontFamily="@font/bmjua"
         android:text="로그인"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_signup"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_linear"
         app:layout_constraintVertical_bias="0.2"
         tools:ignore="MissingConstraints" />
     ​
@@ -74,14 +81,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/textbox"
+        android:background="@drawable/textbox2"
         android:fontFamily="@font/bmjua"
+        android:layout_marginBottom="200dp"
         android:text="회원가입"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login"
         app:layout_constraintVertical_bias="0.3"
         tools:ignore="MissingConstraints" />
 

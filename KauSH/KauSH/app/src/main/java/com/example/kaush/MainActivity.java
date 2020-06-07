@@ -66,10 +66,12 @@ public class MainActivity extends AppCompatActivity {
     String[] probabilities = new String[3]; // 확률값들만 저장하는 배열
     private CustomDialog customDialog;
 
+    String uid;
+    DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference();
+
     ListView musicYetList;
 
     private FirebaseAuth firebaseAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         Start = (Button) findViewById(R.id.btn_google_stt);
         Button Next = findViewById(R.id.button_to_emotion);
 
+        uid = getIntent().getExtras().getString("uid");
+
         musicYetList = findViewById(R.id.list_view_music_yet);
         MusicAdapter musicAdapter = new MusicAdapter();
         musicYetList.setAdapter(musicAdapter);
@@ -86,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i <= 10; i++) {
             musicAdapter.addItem("조이 - 좋은사람있으면소개시켜줘", "2020-05-10", "사랑");
         }
+
         // AMAZONS3CLIENT 객체 생성
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
                 getApplicationContext(),

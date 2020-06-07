@@ -112,7 +112,7 @@ public class MusicActivity extends AppCompatActivity {
                         startActivity(new Intent(Intent.ACTION_VIEW)
                                 .setData(Uri.parse(sampleMusic2.url)) // edit this url
                                 .setPackage("com.google.android.youtube"));	// do not edit
-                        mDBReference.child("account").child(user.getUid()).child("MusicList").child(TIME).setValue(sampleMusic);
+                        mDBReference.child("account").child(user.getUid()).child("MusicList").child(TIME).setValue(sampleMusic2);
 
                         break;
                 }

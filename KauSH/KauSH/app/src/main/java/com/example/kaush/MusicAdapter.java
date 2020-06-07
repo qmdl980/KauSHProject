@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MusicAdapter extends BaseAdapter {
-    private ArrayList<MusicListItem> listViewItemList = new ArrayList<MusicListItem>() ;
+    public ArrayList<MusicListItem> listViewItemList = new ArrayList<MusicListItem>() ;
 
     public MusicAdapter() { }
 

@@ -16,6 +16,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class LogInActivity extends AppCompatActivity
 {
@@ -25,6 +30,11 @@ public class LogInActivity extends AppCompatActivity
     private EditText editTextPassword;
     private Button buttonLogIn;
     private Button buttonSignUp;
+
+    DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference();
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    Date time = new Date();
+    String TIME = format.format(time);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +63,8 @@ public class LogInActivity extends AppCompatActivity
                 if (!editTextEmail.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                     loginUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
 
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    mDBReference.child("account").child(user.getUid()).setValue(TIME);
                 } else {
                     Toast.makeText(LogInActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
                 }
@@ -67,7 +79,8 @@ public class LogInActivity extends AppCompatActivity
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if (user != null) {
-                    Intent intent = new Intent(LogInActivity.this, MainActivity.class); // 이 부분 어떻게 할건지 ....mainactivity --> homeactivity
+                    Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+                    intent.putExtra("uid",user.getUid());// 이 부분 어떻게 할건지 ....mainactivity --> homeactivity
                     startActivity(intent);
                     finish();
                 } else {

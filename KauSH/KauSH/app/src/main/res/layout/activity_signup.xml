@@ -32,52 +32,72 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
-    ​
-
-    <EditText
-        android:id="@+id/editText_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/btn_join"
-        app:layout_constraintStart_toStartOf="@+id/editText_passWord"
-        app:layout_constraintTop_toBottomOf="@+id/editText_passWord"
-        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView_signUpTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="60dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/bmjua"
         android:text="회원가입"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorText"
         android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText_email"
-        app:layout_constraintStart_toStartOf="@+id/editText_email"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_linear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_line"
         tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/editText_email"
+    <LinearLayout
+        android:id="@+id/sign_up_linear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:ems="10"
-        android:hint="E-mail"
-        android:inputType="textEmailAddress"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/editText_passWord"
-        app:layout_constraintStart_toStartOf="@+id/editText_passWord"
+        android:background="@drawable/textbox"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_join"
         app:layout_constraintTop_toBottomOf="@+id/textView_signUpTitle"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+
+        <EditText
+            android:id="@+id/editText_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/textbox2"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:textColor="@android:color/black"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/editText_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/textbox2"
+            android:ems="10"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/black"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/editText_passWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/textbox2"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="@android:color/black"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_join"
@@ -93,22 +113,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_name"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/editText_passWord"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/editText_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_email"
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_linear"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
