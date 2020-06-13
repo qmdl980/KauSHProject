@@ -97,7 +97,7 @@ public class EmotionActivity2 extends AppCompatActivity {
                     if(i == 1){musicDate = snapshot.getValue().toString();}
                     if(i == 2){musicTitle = snapshot.getValue().toString();}
                     if(i == 3){musicUrl = snapshot.getValue().toString();
-                        sampleMusic = new MusicInfo(musicTitle, musicDate, musicUrl); i = 0;}
+                        sampleMusic = new MusicInfo(musicTitle, musicDate, musicUrl,emotion); i = 0;}
                     Log.d("MainActivity", "Single ValueEventListener : " + snapshot.getValue());
                 }
                 for (DataSnapshot snapshot : dataSnapshot.child(emotion).child(rand2).getChildren()) {
@@ -105,7 +105,7 @@ public class EmotionActivity2 extends AppCompatActivity {
                     if(i==1){musicDate = snapshot.getValue().toString();}
                     if(i==2){musicTitle = snapshot.getValue().toString();}
                     if(i==3){musicUrl = snapshot.getValue().toString();
-                        sampleMusic2 = new MusicInfo(musicTitle, musicDate, musicUrl); i = 0;}
+                        sampleMusic2 = new MusicInfo(musicTitle, musicDate, musicUrl,emotion); i = 0;}
                     Log.d("MainActivity", "Single ValueEventListener : " + snapshot.getValue());
                 }
             }

@@ -63,5 +63,9 @@ public class MusicAdapter extends BaseAdapter {
 
         listViewItemList.add(item);
     }
+
+    public void clearItem(){
+        listViewItemList.clear();
+    }
 }
 

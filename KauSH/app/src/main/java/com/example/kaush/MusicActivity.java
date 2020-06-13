@@ -46,6 +46,7 @@ public class MusicActivity extends AppCompatActivity {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Date time = new Date();
     String TIME = format.format(time); // 회원가입한 날짜 기입
+    String textEmotion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,6 @@ public class MusicActivity extends AppCompatActivity {
         LinearLayout musicLinearLayout = (LinearLayout)findViewById(R.id.music_linear_layout);
         LinearLayout musicLinearLayout2 = (LinearLayout)findViewById(R.id.music_linear_layout2);
 
-        String textEmotion;
         Intent intent = getIntent();
 
         textEmotion = intent.getExtras().getString("emotion");
@@ -83,15 +83,11 @@ public class MusicActivity extends AppCompatActivity {
             }
         else { }
 
-
         musicTitleText.setText(sampleMusic.title);
         musicDateText.setText(sampleMusic.date);
 
         musicTitleText2.setText(sampleMusic2.title);
         musicDateText2.setText(sampleMusic2.date);
-
-
-
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
@@ -105,7 +101,6 @@ public class MusicActivity extends AppCompatActivity {
                                 .setData(Uri.parse(sampleMusic.url)) // edit this url
                                 .setPackage("com.google.android.youtube"));	// do not edit
                         mDBReference.child("account").child(user.getUid()).child("MusicList").child(TIME).setValue(sampleMusic);
-                        //mDBReference.child("account").child(user.getUid()).child("Emotion").push().setValue();
 
                         break;
                     case R.id.music_linear_layout2:

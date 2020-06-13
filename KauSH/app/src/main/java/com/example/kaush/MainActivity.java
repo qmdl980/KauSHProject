@@ -14,6 +14,7 @@ import android.os.Message;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -66,12 +67,14 @@ public class MainActivity extends AppCompatActivity {
     String[] probabilities = new String[3]; // 확률값들만 저장하는 배열
     private CustomDialog customDialog;
 
-    String uid;
+    MusicListItem musicListItem;
+
+    String uid, musicDate, musicTitle, musicUrl, musicEmotion;
     DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference();
 
     ListView musicYetList;
 
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,18 +82,49 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Start = (Button) findViewById(R.id.btn_google_stt);
-        Button Next = findViewById(R.id.button_to_emotion);
 
         uid = getIntent().getExtras().getString("uid");
 
         musicYetList = findViewById(R.id.list_view_music_yet);
-        MusicAdapter musicAdapter = new MusicAdapter();
+        final MusicAdapter musicAdapter = new MusicAdapter();
         musicYetList.setAdapter(musicAdapter);
 
-        for(int i = 0; i <= 10; i++) {
-            musicAdapter.addItem("조이 - 좋은사람있으면소개시켜줘", "2020-05-10", "사랑");
-        }
+        mDBReference.addValueEventListener(new ValueEventListener() {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                musicAdapter.clearItem();
+                for (DataSnapshot snapshot : dataSnapshot.child("account").child(user.getUid()).child("MusicList").getChildren()) {
+                    Log.d("MainActivity", "Single ValueEventListener : " + snapshot.getValue());
+                    musicDate = snapshot.child("date").getValue().toString();
+                    musicEmotion = snapshot.child("emotion").getValue().toString();
+                    musicTitle = snapshot.child("title").getValue().toString();
+                    musicUrl = snapshot.child("url").getValue().toString();
+                    if(musicEmotion.equals("love")){musicEmotion="사랑";}
+                    if(musicEmotion.equals("cry")){musicEmotion="울음";}
+                    if(musicEmotion.equals("solace")){musicEmotion="위로";}
+                    musicListItem = new MusicListItem(musicTitle, musicDate, musicEmotion);
+                    musicAdapter.addItem(musicListItem.musicTitleYet, musicListItem.musicDateYet, musicListItem.musicEmotionYet);
+                    musicAdapter.notifyDataSetChanged();
+                }
+            }
 
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        musicYetList.setAdapter(musicAdapter);
+        musicYetList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
+                startActivityForResult(intent,REQUEST_CODE);
+            }
+        });
         // AMAZONS3CLIENT 객체 생성
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
                 getApplicationContext(),
@@ -130,55 +164,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Plese Connect to Internet", Toast.LENGTH_LONG).show();
                 }
             }
-
-        });
-        Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                customDialog = new CustomDialog(MainActivity.this);
-                customDialog.show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        customDialog.cancel();
-
-                        Thread t1 = new Thread() {
-                            public void run() {
-                                String nodingHtml = getNodingHtml();
-                                Bundle bun = new Bundle();
-                                bun.putString("NODING_HTML", nodingHtml);
-                                probability_list = nodingHtml;
-                                Message msg = handler.obtainMessage();
-                                msg.setData(bun);
-                                handler.sendMessage(msg);
-                            }
-                        };
-
-                        t1.start();
-                        try {
-                            t1.join();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        dividedProbability();
-
-                        Float probability1 = Float.parseFloat(probabilities[1]);
-                        Float probability2 = Float.parseFloat(probabilities[2]);
-
-                        if (probability1 <= probability2) {
-                            Intent eintent = new Intent(getApplicationContext(), EmotionActivity.class);
-                            eintent.putExtra("text", text_data);
-                            startActivityForResult(eintent, REQUEST_CODE);
-                        } else {
-                            Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
-                            eintent.putExtra("text", text_data);
-                            startActivityForResult(eintent, REQUEST_CODE);
-                        }
-                    }
-                }, 5000);
-            }
         });
     }
 
@@ -191,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-//
+
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             Bundle bun = msg.getData();
@@ -295,8 +280,6 @@ public class MainActivity extends AppCompatActivity {
             );
 
             //여기서부터 dialog실행 5초 대기 및 다음 액티비티로 넘어가는 과정 해보기
-            //우선 에뮬에서는 확인할수 없기 때문에 출력방식으로 사용 or 버튼누를시 하는걸로
-
             customDialog = new CustomDialog(MainActivity.this);
             customDialog.show();
             new Handler().postDelayed(new Runnable() {

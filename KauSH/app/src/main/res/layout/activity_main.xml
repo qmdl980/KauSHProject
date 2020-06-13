@@ -40,6 +40,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:fontFamily="@font/bmjua"
         android:text="  지난 노래 추천 기록"
         android:textColor="#ffffff"
@@ -59,19 +60,5 @@
         app:layout_constraintVertical_bias="1.0">
 
     </ListView>
-
-    <Button
-        android:id="@+id/button_to_emotion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:textColor="@color/colorText"
-        android:background="@drawable/button_custom"
-        android:fontFamily="@font/bmjua"
-        app:layout_constraintBottom_toTopOf="@+id/list_view_music_yet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-         />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
