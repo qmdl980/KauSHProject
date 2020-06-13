@@ -53,18 +53,14 @@ public class MusicActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music);
 
-        musicEmotionText = (TextView)findViewById(R.id.text_music_emotion);
-        musicImageView1 = (ImageView)findViewById(R.id.image_music_1);
-        musicImageView2 = (ImageView)findViewById(R.id.image_music_2);
+        musicEmotionText = findViewById(R.id.text_music_emotion);
+        musicImageView1 = findViewById(R.id.image_music_1);
+        musicImageView2 = findViewById(R.id.image_music_2);
 
-        TextView musicTitleText = (TextView)findViewById(R.id.text_music_title);
-        TextView musicDateText = (TextView)findViewById(R.id.text_music_date);
-
-        TextView musicTitleText2 = (TextView)findViewById(R.id.text_music_title2);
-        TextView musicDateText2 = (TextView)findViewById(R.id.text_music_date2);
-
-        LinearLayout musicLinearLayout = (LinearLayout)findViewById(R.id.music_linear_layout);
-        LinearLayout musicLinearLayout2 = (LinearLayout)findViewById(R.id.music_linear_layout2);
+        TextView musicTitleText = findViewById(R.id.text_music_title);
+        TextView musicTitleText2 = findViewById(R.id.text_music_title2);
+        LinearLayout musicLinearLayout = findViewById(R.id.music_linear_layout);
+        LinearLayout musicLinearLayout2 = findViewById(R.id.music_linear_layout2);
 
         Intent intent = getIntent();
 
@@ -84,17 +80,14 @@ public class MusicActivity extends AppCompatActivity {
         else { }
 
         musicTitleText.setText(sampleMusic.title);
-        musicDateText.setText(sampleMusic.date);
 
         musicTitleText2.setText(sampleMusic2.title);
-        musicDateText2.setText(sampleMusic2.date);
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 firebaseAuth = FirebaseAuth.getInstance();
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                //Intent intent2 = getIntent();
                 switch (view.getId()){
                     case R.id.music_linear_layout:
                         startActivity(new Intent(Intent.ACTION_VIEW)

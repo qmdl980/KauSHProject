@@ -68,20 +68,23 @@ public class EmotionActivity extends AppCompatActivity {
 
     public void setMusicFromDatabase(){
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            int i = 0;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.child("love").child(rand).getChildren()) {
-                    musicDate = snapshot.getValue().toString();
-                    musicTitle = snapshot.getValue().toString();
-                    musicUrl = snapshot.getValue().toString();
-                    sampleMusic = new MusicInfo(musicTitle, musicDate, musicUrl,"love");
+                    i++;
+                    if(i==1){musicDate = snapshot.getValue().toString();}
+                    if(i==2){musicTitle = snapshot.getValue().toString();}
+                    if(i==3){musicUrl = snapshot.getValue().toString();
+                    sampleMusic = new MusicInfo(musicTitle, musicDate, musicUrl,"love"); i = 0;}
                     Log.d("MainActivity", "Single ValueEventListener : " + snapshot.getValue());
                 }
                 for (DataSnapshot snapshot : dataSnapshot.child("love").child(rand2).getChildren()) {
-                    musicDate = snapshot.getValue().toString();
-                    musicTitle = snapshot.getValue().toString();
-                    musicUrl = snapshot.getValue().toString();
-                    sampleMusic2 = new MusicInfo(musicTitle, musicDate, musicUrl,"love");
+                    i++;
+                    if(i==1){musicDate = snapshot.getValue().toString();}
+                    if(i==2){musicTitle = snapshot.getValue().toString();}
+                    if(i==3){musicUrl = snapshot.getValue().toString();
+                    sampleMusic2 = new MusicInfo(musicTitle, musicDate, musicUrl,"love");i = 0;}
                     Log.d("MainActivity", "Single ValueEventListener : " + snapshot.getValue());
                 }
             }

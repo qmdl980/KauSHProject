@@ -49,17 +49,6 @@
                 android:textColor="@color/colorText"
                 android:text="MusicTitle"
                 android:fontFamily="@font/bmjua"/>
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="25dp"/>
-            <TextView
-                android:id="@+id/text_music_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:textColor="@color/colorText"
-                android:text="MusicDate"
-                android:fontFamily="@font/bmjua"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -90,17 +79,6 @@
                 android:textSize="20dp"
                 android:textColor="@color/colorText"
                 android:text="MusicTitle"
-                android:fontFamily="@font/bmjua"/>
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="25dp"/>
-            <TextView
-                android:id="@+id/text_music_date2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:textColor="@color/colorText"
-                android:text="MusicDate"
                 android:fontFamily="@font/bmjua"/>
         </LinearLayout>
     </LinearLayout>
