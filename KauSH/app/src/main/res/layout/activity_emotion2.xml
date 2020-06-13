@@ -30,7 +30,7 @@
     <Space
         android:id="@+id/space2"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="90dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_music_solace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,8 +78,7 @@
     <Space
         android:id="@+id/space4"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteY="322dp"
+        android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
