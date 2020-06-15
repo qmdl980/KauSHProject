@@ -32,8 +32,8 @@ import java.util.Set;
 
 public class FragmentGraph1 extends Fragment
 {
-    HashMap<String, String> negetive_emotion_map = new HashMap<String, String>();
-    HashMap<String, String> positive_emotion_map = new HashMap<String, String>(); //  날짜와 그때의 감정을 저장하는 해시
+    HashMap<String, Float> negative_emotion_map = new HashMap<String, Float>();
+    HashMap<String, Float> positive_emotion_map = new HashMap<String, Float>(); //  날짜와 그때의 감정을 저장하는 해시
 
 
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -44,7 +44,7 @@ public class FragmentGraph1 extends Fragment
     @Override
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        System.out.println("]]]]]]]]]]]]]]]]]");
+        /*System.out.println("]]]]]]]]]]]]]]]]]");
         System.out.println(mDBReference);
         mDBReference.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -54,35 +54,46 @@ public class FragmentGraph1 extends Fragment
             {
                 for (DataSnapshot snapshot : dataSnapshot.child("account").child(user.getUid()).child("Emotion").getChildren())
                 {
-                    negetive_emotion_map.put(dataSnapshot.child("account").child(user.getUid()).child("Emotion").getValue().toString(),
+                    Log.d("Graph1", "ValueEventListener : " + snapshot.getKey() + snapshot.getValue());
+                    negetive_emotion_map.put(snapshot.getKey(),
                             snapshot.child("negative").getValue().toString());
-                    positive_emotion_map.put(dataSnapshot.child("account").child(user.getUid()).child("Emotion").getValue().toString(),
+                    positive_emotion_map.put(snapshot.getKey(),
                             snapshot.child("positive").getValue().toString());
                 }
+                System.out.println("--------------");
+                System.out.println(positive_emotion_map);
+                System.out.println(negetive_emotion_map);
+                System.out.println("--------------");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w("loadPost:onCancelled", databaseError.toException());
-
             }
-        });
+        });*/
+
         super.onCreate(savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_graph1, container, false);
         LineChart lineChart = (LineChart) v.findViewById(R.id.chart);
 
-        Set<String> negative_keySet = negetive_emotion_map.keySet();
+        System.out.println("----------navigation");
+        System.out.println(positive_emotion_map);
+        System.out.println(negative_emotion_map);
+        System.out.println("----------navigation");
+
+        /*Set<String> negative_keySet = negative_emotion_map.keySet();
         Set<String> positive_keySet = positive_emotion_map.keySet();
 
         ArrayList<Entry> negative_entries = new ArrayList<>();
         ArrayList<Entry> positive_entries = new ArrayList<>();
 
-        if(negetive_emotion_map.size() != 0 && positive_emotion_map.size() != 0) {
+        if(negative_emotion_map.size() != 0 && positive_emotion_map.size() != 0) {
             for (String key : negative_keySet) {
-                negative_entries.add(new Entry(Float.parseFloat(key), Float.parseFloat(negetive_emotion_map.get(key))));
+                negative_entries.add(new Entry(Float.parseFloat(key), Float.parseFloat(negative_emotion_map.get(key))));
                 positive_entries.add(new Entry(Float.parseFloat(key), Float.parseFloat(positive_emotion_map.get(key))));
             }
         }
+
         LineDataSet negative_linedataset = new LineDataSet(negative_entries, "꺽은선1");
         negative_linedataset.setLineWidth(2); // 선 굵기
         negative_linedataset.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -111,7 +122,11 @@ public class FragmentGraph1 extends Fragment
         lineChart.animateY(2000);
         lineChart.invalidate();
 
-
+*/
         return v;
+    }
+    public void setEmotionMap(HashMap<String, Float> positive_emotion_map, HashMap<String, Float> negative_emotion_map){
+        this.positive_emotion_map = positive_emotion_map;
+        this.negative_emotion_map = negative_emotion_map;
     }
 }

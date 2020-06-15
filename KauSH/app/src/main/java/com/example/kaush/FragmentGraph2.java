@@ -2,6 +2,7 @@ package com.example.kaush;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,65 +44,19 @@ public class FragmentGraph2 extends Fragment {
 public class FragmentGraph2 extends Fragment
 {
     PieChart pieChart;
-    HashMap<Integer, String> negetive_emotion_map = new HashMap<Integer, String>();
-    HashMap<Integer, String> positive_emotion_map = new HashMap<Integer, String>();
-    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    FirebaseUser user = firebaseAuth.getCurrentUser();
-    DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference(); // 데이터베이스 접근 객체
-    int emotion_count = 0; // 그동안 몇번의 감정이 있었는지 카운팅
-    float negative_emotion_total;
-    float positive_emotion_total;
     float negative_emotion_avg;
     float positive_emotion_avg;
 
-    /*
-    public void onDateChange(@NonNull DataSnapshot dataSnapshot)
-    {
-
-        for (DataSnapshot snapshot : dataSnapshot.child("account").child(user.getUid()).child("Emotion").getChildren())
-        {
-            emotion_count++;
-            negative_emotion_total = negative_emotion_total + Integer.parseInt(snapshot.child("negative").getValue().toString());
-            positive_emotion_total = positive_emotion_total + Integer.parseInt(snapshot.child("positive").getValue().toString());
-            negetive_emotion_map.put(emotion_count, snapshot.child("negative").getValue().toString()); // 혹시 사용할 일이 있을까... map<횟수, 감정수치>
-            positive_emotion_map.put(emotion_count, snapshot.child("positive").getValue().toString());
-        }
-        negative_emotion_avg = negative_emotion_total / emotion_count;
-        positive_emotion_avg = positive_emotion_total / emotion_count;
-
-    }
-    //mDBReference.child("account").child(user.getUid()).child("MusicList").child(TIME).setValue(sampleMusic);
-    */
     @Override
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        mDBReference.addValueEventListener(new ValueEventListener() {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                for (DataSnapshot snapshot : dataSnapshot.child("account").child(user.getUid()).child("Emotion").getChildren())
-                {
-                    emotion_count++;
-                    negative_emotion_total = negative_emotion_total + Float.parseFloat(snapshot.child("negative").getValue().toString());
-                    positive_emotion_total = positive_emotion_total + Float.parseFloat(snapshot.child("positive").getValue().toString());
-                    negetive_emotion_map.put(emotion_count, snapshot.child("negative").getValue().toString()); // 혹시 사용할 일이 있을까... map<횟수, 감정수치>
-                    positive_emotion_map.put(emotion_count, snapshot.child("positive").getValue().toString());
-                }
-                negative_emotion_avg = negative_emotion_total / emotion_count;
-                positive_emotion_avg = positive_emotion_total / emotion_count;
-            }
+        Bundle bundle = getArguments();
+        negative_emotion_avg = bundle.getFloat("negative_emotion_avg");
+        positive_emotion_avg = bundle.getFloat("positive_emotion_avg");
+        Log.d("Graph2", "positive and negative : " + positive_emotion_avg + negative_emotion_avg);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
         View v = inflater.inflate(R.layout.fragment_graph2, container, false);
-        PieChart pieChart = (PieChart) v.findViewById(R.id.piechart);
+        pieChart = (PieChart) v.findViewById(R.id.piechart);
 
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
@@ -115,27 +70,12 @@ public class FragmentGraph2 extends Fragment
 
         ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
 
-        yValues.add(new PieEntry(negative_emotion_avg, "negative"));
-        yValues.add(new PieEntry(positive_emotion_avg,"positive"));
-
-        System.out.println("-------------");
-        System.out.println(negative_emotion_avg);
-        System.out.println(positive_emotion_avg);
-        System.out.println("-------------");
-        /*
-        yValues.add(new PieEntry(14f,"UK"));
-        yValues.add(new PieEntry(35f,"India"));
-        yValues.add(new PieEntry(40f,"Russia"));
-        yValues.add(new PieEntry(40f,"Korea"));
-        */
-        //Description description = new Description();
-        //description.setText("감정 상태"); //라벨
-        //description.setTextSize(15);
-        //pieChart.setDescription(description);
+        yValues.add(new PieEntry(negative_emotion_avg, "부정"));
+        yValues.add(new PieEntry(positive_emotion_avg,"긍정"));
 
         pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic); //애니메이션
 
-        PieDataSet dataSet = new PieDataSet(yValues, "emotion");
+        PieDataSet dataSet = new PieDataSet(yValues, "감정");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
@@ -147,9 +87,8 @@ public class FragmentGraph2 extends Fragment
         pieChart.setData(data);
         pieChart.invalidate(); // 그래프 갱신
 
+        super.onCreate(savedInstanceState);
         return v;
 
     }
-
-
 }

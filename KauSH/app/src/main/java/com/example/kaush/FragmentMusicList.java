@@ -52,7 +52,6 @@ public class FragmentMusicList extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 musicAdapter.clearItem();
                 for (DataSnapshot snapshot : dataSnapshot.child("account").child(user.getUid()).child("MusicList").getChildren()) {
-                    Log.d("MainActivity", "Single ValueEventListener : " + snapshot.getValue());
                     musicDate = snapshot.child("date").getValue().toString();
                     musicEmotion = snapshot.child("emotion").getValue().toString();
                     musicTitle = snapshot.child("title").getValue().toString();
