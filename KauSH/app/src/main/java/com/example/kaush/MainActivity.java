@@ -109,8 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -161,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                             RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                     startActivityForResult(intent, REQUEST_CODE); //
                 } else {
-                    Toast.makeText(getApplicationContext(), "Plese Connect to Internet", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "인터넷에 연결해주세요", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -266,12 +264,8 @@ public class MainActivity extends AppCompatActivity {
                 outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
                 outputStream.write(string.getBytes());
                 outputStream.close();
-
-                Toast.makeText(this, "this is internal storage save success.", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 e.printStackTrace();
-
-                Toast.makeText(this, "this is internal storage save fail.", Toast.LENGTH_LONG).show();
             }
             TransferObserver observer = (TransferObserver) transferUtility.upload(
                     "noding2",
@@ -322,18 +316,34 @@ public class MainActivity extends AppCompatActivity {
 
                     UserData userdata = new UserData(probability1, probability2);
 
-                    mDBReference.child("account").child(user.getUid()).child("Emotion").child(TIME).child("positive").setValue(probability2);
-                    mDBReference.child("account").child(user.getUid()).child("Emotion").child(TIME).child("negative").setValue(probability1);
+
                     //mDBReference.child("account").child(user.getUid()).child("Emotion").push().child("negative").setValue(probability2);
 
-                    if (probability1 <= probability2) {
+                    ArrayList<Float> prob = new ArrayList<Float>();
+                    for(int i = 0; i < 3; i++) {
+                        prob.add(Float.parseFloat(probabilities[i]));
+                    }
+                    float max = prob.get(0);
+                    for(int i = 0; i < 3; i++) {
+                        if(max < prob.get(i)){
+                            max = prob.get(i);
+                        }
+                    }
+
+                    if (max == prob.get(2)) {
                         Intent eintent = new Intent(getApplicationContext(), EmotionActivity.class);
                         eintent.putExtra("text", text_data);
                         startActivityForResult(eintent, REQUEST_CODE);
-                    } else {
+                        mDBReference.child("account").child(user.getUid()).child("Emotion").child(TIME).child("positive").setValue(probability2);
+                        mDBReference.child("account").child(user.getUid()).child("Emotion").child(TIME).child("negative").setValue(probability1);
+                    } else if(max == prob.get(1)){
                         Intent eintent = new Intent(getApplicationContext(), EmotionActivity2.class);
                         eintent.putExtra("text", text_data);
                         startActivityForResult(eintent, REQUEST_CODE);
+                        mDBReference.child("account").child(user.getUid()).child("Emotion").child(TIME).child("positive").setValue(probability2);
+                        mDBReference.child("account").child(user.getUid()).child("Emotion").child(TIME).child("negative").setValue(probability1);
+                    } else if(max == prob.get(0)){
+                        Toast.makeText(getApplicationContext(), "부적합한 말입니다 다시 말해주세요",Toast.LENGTH_SHORT).show();
                     }
                 }
             }, 5000);

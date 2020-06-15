@@ -11,7 +11,7 @@
         android:id="@+id/text_question"
         android:layout_width="330dp"
         android:layout_height="200dp"
-        android:text="오늘 그 분과 \n무슨 일이 있었는지 궁금해요\n\n\n"
+        android:text="오늘 그 분과 \n무슨 일이 있었는지 말해보세요\n\n\n"
         android:gravity="center"
         android:background="@drawable/textbox"
         android:textColor="@color/colorText"
