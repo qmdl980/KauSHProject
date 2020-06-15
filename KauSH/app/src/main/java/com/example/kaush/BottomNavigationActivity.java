@@ -64,9 +64,9 @@ public class BottomNavigationActivity extends AppCompatActivity {
                 }
                 for (DataSnapshot snapshot : dataSnapshot.child("account").child(user.getUid()).child("Emotion").getChildren())
                 {
-                    negative_emotion_map.put(snapshot.getKey(),
+                    negative_emotion_map.put(snapshot.getKey().toString(),
                             Float.parseFloat(snapshot.child("negative").getValue().toString()));
-                    positive_emotion_map.put(snapshot.getKey(),
+                    positive_emotion_map.put(snapshot.getKey().toString(),
                             Float.parseFloat(snapshot.child("positive").getValue().toString()));
                 }
                 negative_emotion_avg = negative_emotion_total / emotion_count;

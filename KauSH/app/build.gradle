@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
 
     implementation 'com.github.PhilJay:MpAndroidChart:v3.0.2'
+    //implementation 'com.github.PhilJay:MPAndroidChart:v2.1.6' // 예전버전
 }
 
 repositories{

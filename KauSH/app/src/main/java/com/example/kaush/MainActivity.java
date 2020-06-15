@@ -303,9 +303,10 @@ public class MainActivity extends AppCompatActivity {
 
                     dividedProbability();
 
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat format = new SimpleDateFormat("MMdd");
                     Date time = new Date();
                     String TIME = format.format(time); // 회원가입한 날짜 기입
+
 
                     firebaseAuth = FirebaseAuth.getInstance();
                     FirebaseUser user = firebaseAuth.getCurrentUser();
