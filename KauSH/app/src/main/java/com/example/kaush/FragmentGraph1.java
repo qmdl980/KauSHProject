@@ -85,6 +85,7 @@ public class FragmentGraph1 extends Fragment
         XAxis xAxis = lineChart.getXAxis(); // x 축 설정
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); //x 축 표시에 대한 위치 설정
         xAxis.setLabelCount(count, true);
+
         YAxis yAxisRight = lineChart.getAxisRight(); //Y축의 오른쪽면 설정
         yAxisRight.setDrawLabels(false);
         yAxisRight.setDrawAxisLine(false);
