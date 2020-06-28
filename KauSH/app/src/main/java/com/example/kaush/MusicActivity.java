@@ -11,7 +11,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,11 +24,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import org.w3c.dom.Text;
+
 
 public class MusicActivity extends AppCompatActivity {
 
@@ -36,10 +44,11 @@ public class MusicActivity extends AppCompatActivity {
 
     DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference(); // 데이터베이스 접근 객체
 
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    StorageReference storageReference = firebaseStorage.getReference();
+
     Random random = new Random();
-    String rand, rand2;
+    String rand, rand2 = "1";
 
     private FirebaseAuth firebaseAuth;
 
@@ -67,6 +76,9 @@ public class MusicActivity extends AppCompatActivity {
         textEmotion = intent.getExtras().getString("emotion");
         sampleMusic = intent.getExtras().getParcelable("MUSIC1");
         sampleMusic2 = intent.getExtras().getParcelable("MUSIC2");
+
+        rand = intent.getExtras().getString("random1");
+        rand2 = intent.getExtras().getString("random2");
 
         if(textEmotion.equals("love")) {
                 setActivityLove();
@@ -110,23 +122,50 @@ public class MusicActivity extends AppCompatActivity {
         musicLinearLayout2.setOnClickListener(clickListener);
     }
 
-
     public void setActivityLove(){
         musicEmotionText.setText("같이 이 노래 들어보는거 어때요?");
-        musicImageView1.setImageResource(R.drawable.image_music_love1);
-        musicImageView2.setImageResource(R.drawable.image_music_love2);
+        getImageFromFirebase("love",rand,rand2);
     }
 
     public void setActivitySolace(){
         musicEmotionText.setText("이 노래 들으면 위로가 될거에요");
-        musicImageView1.setImageResource(R.drawable.image_music_solace1);
-        musicImageView2.setImageResource(R.drawable.image_music_solace2);
+        getImageFromFirebase("solace",rand,rand2);
     }
 
     public void setActivityCry(){
         musicEmotionText.setText("펑펑 울고 털어내세요");
-        musicImageView1.setImageResource(R.drawable.image_music_cry1);
-        musicImageView2.setImageResource(R.drawable.image_music_cry2);
+        getImageFromFirebase("cry",rand,rand2);
     }
 
+    public void getImageFromFirebase(String textEmotion, String rand, String rand2){
+        Log.d("MusicActivity", storageReference + textEmotion + "/" + rand2 + ".jpg");
+        Log.d("MusicActivity", storageReference + textEmotion + "/" + rand2 + ".jpg");
+        Log.d("MusicActivity", storageReference + textEmotion + "/" + rand2 + ".jpg");
+        StorageReference storageReference1 = storageReference.child(textEmotion + "/" + rand + ".jpg");
+        storageReference1.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    // Glide 이용하여 이미지뷰에 로딩
+                    Glide.with(MusicActivity.this).load(task.getResult()).into(musicImageView1);
+                } else {
+                    // URL을 가져오지 못하면 토스트 메세지
+                    Toast.makeText(MusicActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        StorageReference storageReference2 = storageReference.child(textEmotion + "/" + rand2 + ".jpg");
+        storageReference2.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    // Glide 이용하여 이미지뷰에 로딩
+                    Glide.with(MusicActivity.this).load(task.getResult()).into(musicImageView2);
+                } else {
+                    // URL을 가져오지 못하면 토스트 메세지
+                    Toast.makeText(MusicActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 }

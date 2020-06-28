@@ -34,7 +34,6 @@ public class LogInActivity extends AppCompatActivity
     DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference();
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     Date time = new Date();
-    String TIME = format.format(time);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +61,6 @@ public class LogInActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (!editTextEmail.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                     loginUser(editTextEmail.getText().toString(), editTextPassword.getText().toString());
-
-                    //FirebaseUser user = firebaseAuth.getCurrentUser();
-                    //mDBReference.child("account").child(user.getUid()).setValue(TIME);
                 } else {
                     Toast.makeText(LogInActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
                 }

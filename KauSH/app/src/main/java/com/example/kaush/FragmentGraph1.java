@@ -39,9 +39,7 @@ public class FragmentGraph1 extends Fragment
     int count = 0;
 
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    //FirebaseUser user = firebaseAuth.getCurrentUser();
     DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference(); // 데이터베이스 접근 객체
-    int emotion_count = 0; // 그동안 몇번의 감정이 있었는지 카운팅
 
     @Override
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -50,7 +48,6 @@ public class FragmentGraph1 extends Fragment
         super.onCreate(savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_graph1, container, false);
         LineChart lineChart = (LineChart) v.findViewById(R.id.chart);
-
 
         Set<String> negative_keySet = negative_emotion_map.keySet();
         Set<String> positive_keySet = positive_emotion_map.keySet();
@@ -75,11 +72,9 @@ public class FragmentGraph1 extends Fragment
 
         LineDataSet negative_linedataset = new LineDataSet(negative_entries, "부정");
         negative_linedataset.setLineWidth(2); // 선 굵기
-        //negative_linedataset.setColors(ColorTemplate.JOYFUL_COLORS);
         negative_linedataset.setColors(Color.MAGENTA);
         LineDataSet positive_linedataset = new LineDataSet(positive_entries, "긍정");
         positive_linedataset.setLineWidth(2); // 선 굵기
-        //positive_linedataset.setColors(ColorTemplate.PASTEL_COLORS);
         negative_linedataset.setColors(Color.YELLOW);
 
         XAxis xAxis = lineChart.getXAxis(); // x 축 설정
@@ -96,7 +91,6 @@ public class FragmentGraph1 extends Fragment
         chardata.addDataSet(negative_linedataset);
         chardata.addDataSet(positive_linedataset);
         lineChart.setData(chardata);
-        //lineChart.setVisibleXRangeMinimum(60 * 60 * 24 * 10); //라인차트에서 최대로 보여질 X축의 데이터 설정
         lineChart.animateY(2000);
         lineChart.invalidate();
 

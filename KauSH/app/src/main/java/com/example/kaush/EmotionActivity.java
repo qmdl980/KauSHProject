@@ -39,10 +39,6 @@ public class EmotionActivity extends AppCompatActivity {
 
         userText = intent.getExtras().getString("text");
 
-        //TextView emotionText = findViewById(R.id.text_emotion);
-
-        //emotionText.setText(userText);
-
         Button btnLoveMusic = findViewById(R.id.btn_music_love);
         btnLoveMusic.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -58,10 +54,11 @@ public class EmotionActivity extends AppCompatActivity {
                         mintent.putExtra("emotion", "love");
                         mintent.putExtra("MUSIC1",sampleMusic);
                         mintent.putExtra("MUSIC2",sampleMusic2);
+                        mintent.putExtra("random1",rand);
+                        mintent.putExtra("random2",rand2);
                         startActivityForResult(mintent,1);
                     }
                 },1000);
-
             }
         });
     }
@@ -90,7 +87,6 @@ public class EmotionActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }

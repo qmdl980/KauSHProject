@@ -91,10 +91,6 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
                     break;
                 case R.id.navigation_graph1:
-                    System.out.println("----------navigation");
-                    System.out.println(positive_emotion_map);
-                    System.out.println(negative_emotion_map);
-                    System.out.println("----------navigation");
                     fragmentGraph1.setEmotionMap(positive_emotion_map, negative_emotion_map);
                     transaction.replace(R.id.frameLayout, fragmentGraph1).commitAllowingStateLoss();
                     break;

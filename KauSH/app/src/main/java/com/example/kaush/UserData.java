@@ -16,8 +16,6 @@ public class UserData
         this.name = name;
     }
 
-
-
     public UserData(Float emotion1, Float emotion2)
     {
         this.emotion1 = emotion1;

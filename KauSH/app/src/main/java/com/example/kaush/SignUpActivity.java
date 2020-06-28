@@ -30,9 +30,6 @@ public class SignUpActivity extends AppCompatActivity
     private EditText editTextName;
     private Button buttonJoin;
     DatabaseReference mDBReference = FirebaseDatabase.getInstance().getReference();
-    HashMap<String, Object> childUpdates = null;
-    Map<String, Object> userValue = null;
-    UserData userdata = null;
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     Date time = new Date();
@@ -54,12 +51,9 @@ public class SignUpActivity extends AppCompatActivity
         buttonJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (!editTextEmail.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                     // 이메일과 비밀번호가 공백이 아닌 경우
                     createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString(), editTextName.getText().toString()); // auth에 저장
-
-                    //UserData userdata = new UserData(editTextName.getText().toString(), editTextPassword.getText().toString()); // db에 저장
                 } else {
                     // 이메일과 비밀번호가 공백인 경우
                     Toast.makeText(SignUpActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();

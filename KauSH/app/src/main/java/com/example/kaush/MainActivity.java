@@ -315,11 +315,6 @@ public class MainActivity extends AppCompatActivity {
                     Float probability1 = Float.parseFloat(probabilities[1]);
                     Float probability2 = Float.parseFloat(probabilities[2]);
 
-                    UserData userdata = new UserData(probability1, probability2);
-
-
-                    //mDBReference.child("account").child(user.getUid()).child("Emotion").push().child("negative").setValue(probability2);
-
                     ArrayList<Float> prob = new ArrayList<Float>();
                     for(int i = 0; i < 3; i++) {
                         prob.add(Float.parseFloat(probabilities[i]));
